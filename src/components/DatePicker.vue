@@ -16,8 +16,11 @@ export default {
     console.clear();
   },
   methods: {
-    handleSelectd(e) {
-      console.log("handleSelectd: ", e);
+    handleSelectd(date) {
+      const getMonth = date.getUTCMonth() + 1;
+      const getDate = date.getUTCDate();
+      const getDay = date.getUTCDay();
+      console.log("handleSelectd: ", getMonth, getDate);
     }
   },
   components: {
