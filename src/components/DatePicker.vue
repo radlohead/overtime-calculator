@@ -10,7 +10,7 @@
             <section>
               <h3>출근 시간:</h3>
               <div class="selectBox">
-                <select multiple>
+                <select name="attendanceHour" @change="handleChangeTime" multiple>
                   <option disabled value>출근 시(Hour)를 선택해 주세요.</option>
                   <option value="9">9시</option>
                   <option value="10">10시</option>
@@ -20,7 +20,7 @@
                   <option value="14">14시</option>
                   <option value="15">15시</option>
                 </select>
-                <select multiple>
+                <select name="attendanceMinute" @change="handleChangeTime" multiple>
                   <option disabled value>출근 분(Minute)을 선택해 주세요.</option>
                   <option value="0">0분</option>
                   <option value="5">5분</option>
@@ -40,7 +40,7 @@
             <section>
               <h3>퇴근 시간:</h3>
               <div class="selectBox">
-                <select multiple>
+                <select name="leaveWorkHour" @change="handleChangeTime" multiple>
                   <option disabled value>퇴근 시(Hour)를 선택해 주세요.</option>
                   <option value="9">9시</option>
                   <option value="10">10시</option>
@@ -50,7 +50,7 @@
                   <option value="14">14시</option>
                   <option value="15">15시</option>
                 </select>
-                <select multiple>
+                <select name="leaveWorkMinute" @change="handleChangeTime" multiple>
                   <option disabled value>퇴근 분(Minute)을 선택해 주세요.</option>
                   <option value="0">0분</option>
                   <option value="5">5분</option>
@@ -67,7 +67,7 @@
                 </select>
               </div>
             </section>
-            <button @click="isPopup = false">입력 완료</button>
+            <button @click="handleClickClosePopup">입력 완료</button>
           </div>
         </div>
       </template>
@@ -81,7 +81,16 @@ import Datepicker from "vuejs-datepicker";
 export default {
   data() {
     return {
-      isPopup: false
+      isPopup: false,
+      date: {
+        getMonth: null,
+        getDate: null,
+        getDay: null
+      },
+      time: {
+        attendanceTime: [],
+        leaveWorkTime: []
+      }
     };
   },
   mounted() {
@@ -89,15 +98,61 @@ export default {
   },
   methods: {
     handleSelectd(date) {
-      const getMonth = date.getUTCMonth() + 1;
-      const getDate = date.getUTCDate();
-      const getDay = date.getUTCDay();
-      console.log("handleSelectd: ", getMonth, getDate);
+      this.getMonth = date.getUTCMonth() + 1;
+      this.getDate = date.getUTCDate();
+      this.getDay = date.getUTCDay();
+      console.log("handleSelectd: ", this.getMonth, this.getDate, this.getDay);
 
       this.openPopup();
     },
     openPopup() {
       this.isPopup = true;
+    },
+    handleChangeTime(e) {
+      const CONSTANTS = {
+        ATTENDANCE_HOUR: "attendanceHour",
+        ATTENDANCE_MINUTE: "attendanceMinute",
+        LEAVE_WORK_HOUR: "leaveWorkHour",
+        LEAVE_WORK_MINUTE: "leaveWorkMinute"
+      };
+      const timeType = e.target.name;
+      const selectedTime = e.target.value;
+      const setSelectedTime = {
+        [CONSTANTS.ATTENDANCE_HOUR]: () => {
+          const currentList = this.time.attendanceTime[this.getDate - 1];
+          if (!currentList) {
+            this.time.attendanceTime[this.getDate - 1] = {};
+          }
+          this.time.attendanceTime[this.getDate - 1].hour = selectedTime;
+        },
+        [CONSTANTS.ATTENDANCE_MINUTE]: () => {
+          const currentList = this.time.attendanceTime[this.getDate - 1];
+          if (!currentList) {
+            this.time.attendanceTime[this.getDate - 1] = {};
+          }
+          this.time.attendanceTime[this.getDate - 1].minute = selectedTime;
+        },
+        [CONSTANTS.LEAVE_WORK_HOUR]: () => {
+          const currentList = this.time.leaveWorkTime[this.getDate - 1];
+          if (!currentList) {
+            this.time.leaveWorkTime[this.getDate - 1] = {};
+          }
+          this.time.leaveWorkTime[this.getDate - 1].hour = selectedTime;
+        },
+        [CONSTANTS.LEAVE_WORK_MINUTE]: () => {
+          const currentList = this.time.leaveWorkTime[this.getDate - 1];
+          if (!currentList) {
+            this.time.leaveWorkTime[this.getDate - 1] = {};
+          }
+          this.time.leaveWorkTime[this.getDate - 1].minute = selectedTime;
+        }
+      };
+      setSelectedTime[timeType]();
+      // console.log(e.target.name, e.target.value);
+    },
+    handleClickClosePopup() {
+      this.isPopup = false;
+      // console.log(JSON.parse(JSON.stringify(this.time)));
     }
   },
   components: {
