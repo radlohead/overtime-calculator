@@ -26,6 +26,10 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+.vdp-datepicker__calendar {
+  width: auto !important;
+  max-width: 600px;
+  margin: 0 auto;
+}
 </style>
