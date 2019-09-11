@@ -113,46 +113,45 @@ export default {
         ATTENDANCE_HOUR: "attendanceHour",
         ATTENDANCE_MINUTE: "attendanceMinute",
         LEAVE_WORK_HOUR: "leaveWorkHour",
-        LEAVE_WORK_MINUTE: "leaveWorkMinute"
+        LEAVE_WORK_MINUTE: "leaveWorkMinute",
+
+        ATTENDANCE_TIME: "attendanceTime",
+        LEAVE_WORK_TIME: "leaveWorkTime",
+        HOUR: "hour",
+        MINUTE: "minute"
       };
       const timeType = e.target.name;
       const selectedTime = e.target.value;
+
+      const setTargetSelectedTime = (target, dateType) => {
+        const currentList = this.time[target][this.getDate - 1];
+
+        if (!currentList) {
+          this.time[target][this.getDate - 1] = {};
+        }
+        this.time[target][this.getDate - 1][dateType] = selectedTime;
+      };
+
       const setSelectedTime = {
         [CONSTANTS.ATTENDANCE_HOUR]: () => {
-          const currentList = this.time.attendanceTime[this.getDate - 1];
-          if (!currentList) {
-            this.time.attendanceTime[this.getDate - 1] = {};
-          }
-          this.time.attendanceTime[this.getDate - 1].hour = selectedTime;
+          setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR);
         },
         [CONSTANTS.ATTENDANCE_MINUTE]: () => {
-          const currentList = this.time.attendanceTime[this.getDate - 1];
-          if (!currentList) {
-            this.time.attendanceTime[this.getDate - 1] = {};
-          }
-          this.time.attendanceTime[this.getDate - 1].minute = selectedTime;
+          setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.MINUTE);
         },
         [CONSTANTS.LEAVE_WORK_HOUR]: () => {
-          const currentList = this.time.leaveWorkTime[this.getDate - 1];
-          if (!currentList) {
-            this.time.leaveWorkTime[this.getDate - 1] = {};
-          }
-          this.time.leaveWorkTime[this.getDate - 1].hour = selectedTime;
+          setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.HOUR);
         },
         [CONSTANTS.LEAVE_WORK_MINUTE]: () => {
-          const currentList = this.time.leaveWorkTime[this.getDate - 1];
-          if (!currentList) {
-            this.time.leaveWorkTime[this.getDate - 1] = {};
-          }
-          this.time.leaveWorkTime[this.getDate - 1].minute = selectedTime;
+          setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.MINUTE);
         }
       };
       setSelectedTime[timeType]();
-      // console.log(e.target.name, e.target.value);
+      console.log("handleChangeTime: ", e.target.name, e.target.value);
     },
     handleClickClosePopup() {
       this.isPopup = false;
-      // console.log(JSON.parse(JSON.stringify(this.time)));
+      console.log("closePopup: ", JSON.parse(JSON.stringify(this.time)));
     }
   },
   components: {
