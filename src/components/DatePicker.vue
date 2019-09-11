@@ -90,13 +90,20 @@ export default {
       time: {
         attendanceTime: [],
         leaveWorkTime: []
-      }
+      },
+      today: null
     };
   },
-  mounted() {
+  created() {
     console.clear();
+    this.setToday();
   },
+  mounted() {},
   methods: {
+    setToday() {
+      const date = new Date();
+      console.log("setToday: ", date.getUTCDate());
+    },
     handleSelectd(date) {
       this.getMonth = date.getUTCMonth() + 1;
       this.getDate = date.getUTCDate();
@@ -165,6 +172,10 @@ export default {
   width: auto !important;
   max-width: 600px;
   margin: 0 auto;
+}
+.today {
+  color: #fff;
+  background-color: #1bbf37;
 }
 </style>
 <style scoped>
