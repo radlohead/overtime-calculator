@@ -91,7 +91,8 @@ export default {
         attendanceTime: [],
         leaveWorkTime: []
       },
-      today: null
+      today: null,
+      getTimeList: localStorage.getItem("getTimeList") || {}
     };
   },
   created() {
@@ -170,7 +171,22 @@ export default {
       console.log("handleChangeTime: ", e.target.name, e.target.value);
     },
     handleClickClosePopup() {
+      const CONSTANTS = {
+        ATTENDANCE_TIME: "attendanceTime",
+        LEAVE_WORK_TIME: "leaveWorkTime"
+      };
+      const getTimeList = localStorage.getItem("getTimeList") || "{}";
+      const attendanceTime = this.time[CONSTANTS.ATTENDANCE_TIME];
+      const leaveWorkTime = this.time[CONSTANTS.LEAVE_WORK_TIME];
+
       this.isPopup = false;
+      if (!attendanceTime.length && !leaveWorkTime.length) return;
+
+      localStorage.setItem(
+        "getTimeList",
+        JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
+      );
+
       console.log("closePopup: ", JSON.parse(JSON.stringify(this.time)));
     }
   },
@@ -229,9 +245,9 @@ export default {
 }
 .popup_inner {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* top: 50%; */
+  /* left: 50%; */
+  /* transform: translate(-50%, -50%); */
   width: 80%;
   max-width: 500px;
   padding: 15px;
