@@ -100,7 +100,8 @@ export default {
         leaveWorkTime: []
       },
       today: null,
-      getTimeList: localStorage.getItem("getTimeList") || {}
+      getTimeList: localStorage.getItem("getTimeList") || "{}",
+      selectedIndex: null
     };
   },
   created() {
@@ -121,41 +122,48 @@ export default {
           <span class="cell_day">${i + 1}</span>
           <span class="cell_attendanceTime">
             ${
-              getTimeList.attendanceTime[i]
-                ? JSON.stringify(getTimeList.attendanceTime[i].hour) &&
-                  JSON.stringify(getTimeList.attendanceTime[i].hour).replace(
-                    /\"/g,
-                    ""
-                  )
+              getTimeList.attendanceTime
+                ? getTimeList.attendanceTime[i]
+                  ? JSON.stringify(getTimeList.attendanceTime[i].hour) &&
+                    JSON.stringify(getTimeList.attendanceTime[i].hour).replace(
+                      /\"/g,
+                      ""
+                    )
+                  : ""
                 : ""
             }:
             ${
-              getTimeList.attendanceTime[i]
-                ? JSON.stringify(getTimeList.attendanceTime[i].minute) &&
-                  JSON.stringify(getTimeList.attendanceTime[i].minute).replace(
-                    /\"/g,
-                    ""
-                  )
+              getTimeList.attendanceTime
+                ? getTimeList.attendanceTime[i]
+                  ? JSON.stringify(getTimeList.attendanceTime[i].minute) &&
+                    JSON.stringify(
+                      getTimeList.attendanceTime[i].minute
+                    ).replace(/\"/g, "")
+                  : ""
                 : ""
             }
           </span>
           <span class="cell_leaveWorkTime">
           ${
-            getTimeList.leaveWorkTime[i]
-              ? JSON.stringify(getTimeList.leaveWorkTime[i].hour) &&
-                JSON.stringify(getTimeList.leaveWorkTime[i].hour).replace(
-                  /\"/g,
-                  ""
-                )
-              : ""
-          }:
-            ${
-              getTimeList.leaveWorkTime[i]
-                ? JSON.stringify(getTimeList.leaveWorkTime[i].minute) &&
-                  JSON.stringify(getTimeList.leaveWorkTime[i].minute).replace(
+            getTimeList.leaveWorkTime
+              ? getTimeList.leaveWorkTime[i]
+                ? JSON.stringify(getTimeList.leaveWorkTime[i].hour) &&
+                  JSON.stringify(getTimeList.leaveWorkTime[i].hour).replace(
                     /\"/g,
                     ""
                   )
+                : ""
+              : ""
+          }:
+            ${
+              getTimeList.leaveWorkTime
+                ? getTimeList.leaveWorkTime[i]
+                  ? JSON.stringify(getTimeList.leaveWorkTime[i].minute) &&
+                    JSON.stringify(getTimeList.leaveWorkTime[i].minute).replace(
+                      /\"/g,
+                      ""
+                    )
+                  : ""
                 : ""
             }
           </span>
@@ -267,24 +275,24 @@ export default {
       this.isPopup = false;
       if (!attendanceTime.length && !leaveWorkTime.length) return;
 
-      // if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
-      //   localStorage.setItem(
-      //     "getTimeList",
-      //     JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
-      //   );
-      //   return;
-      // }
-      // if (this.time.attendanceTime.length) {
-      //   localStorage.setItem(
-      //     "getTimeList",
-      //     JSON.stringify(
-      //       Object.assign({}, JSON.parse(getTimeList), {
-      //         leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
-      //         attendanceTime: this.time.attendanceTime
-      //       })
-      //     )
-      //   );
-      // }
+      if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
+        localStorage.setItem(
+          "getTimeList",
+          JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
+        );
+        return;
+      }
+      if (this.time.attendanceTime.length) {
+        localStorage.setItem(
+          "getTimeList",
+          JSON.stringify(
+            Object.assign({}, JSON.parse(getTimeList), {
+              leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
+              attendanceTime: this.time.attendanceTime
+            })
+          )
+        );
+      }
       if (this.time.leaveWorkTime.length) {
         localStorage.setItem(
           "getTimeList",
