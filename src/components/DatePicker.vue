@@ -12,7 +12,7 @@
               <div class="selectBox">
                 <select name="attendanceHour" @change="handleChangeTime" multiple>
                   <option disabled value>출근 시(Hour)를 선택해 주세요.</option>
-                  <option value="9">9시</option>
+                  <option value="09">9시</option>
                   <option value="10">10시</option>
                   <option value="11">11시</option>
                   <option value="12">12시</option>
@@ -22,8 +22,8 @@
                 </select>
                 <select name="attendanceMinute" @change="handleChangeTime" multiple>
                   <option disabled value>출근 분(Minute)을 선택해 주세요.</option>
-                  <option value="0">0분</option>
-                  <option value="5">5분</option>
+                  <option value="00">0분</option>
+                  <option value="05">5분</option>
                   <option value="10">10분</option>
                   <option value="15">15분</option>
                   <option value="20">20분</option>
@@ -42,18 +42,26 @@
               <div class="selectBox">
                 <select name="leaveWorkHour" @change="handleChangeTime" multiple>
                   <option disabled value>퇴근 시(Hour)를 선택해 주세요.</option>
-                  <option value="9">9시</option>
-                  <option value="10">10시</option>
-                  <option value="11">11시</option>
-                  <option value="12">12시</option>
-                  <option value="13">13시</option>
                   <option value="14">14시</option>
                   <option value="15">15시</option>
+                  <option value="16">16시</option>
+                  <option value="17">17시</option>
+                  <option value="18">18시</option>
+                  <option value="19">19시</option>
+                  <option value="20">20시</option>
+                  <option value="21">21시</option>
+                  <option value="22">22시</option>
+                  <option value="23">23시</option>
+                  <option value="24">24시</option>
+                  <option value="01">1시</option>
+                  <option value="02">2시</option>
+                  <option value="03">3시</option>
+                  <option value="04">4시</option>
                 </select>
                 <select name="leaveWorkMinute" @change="handleChangeTime" multiple>
                   <option disabled value>퇴근 분(Minute)을 선택해 주세요.</option>
-                  <option value="0">0분</option>
-                  <option value="5">5분</option>
+                  <option value="00">0분</option>
+                  <option value="05">5분</option>
                   <option value="10">10분</option>
                   <option value="15">15분</option>
                   <option value="20">20분</option>
@@ -194,6 +202,21 @@ export default {
           initTime || selectedTime;
       };
 
+      const handleChangeInitTime = () => {
+        setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR, "09");
+        setTargetSelectedTime(
+          CONSTANTS.ATTENDANCE_TIME,
+          CONSTANTS.MINUTE,
+          "00"
+        );
+        setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.HOUR, "19");
+        setTargetSelectedTime(
+          CONSTANTS.LEAVE_WORK_TIME,
+          CONSTANTS.MINUTE,
+          "00"
+        );
+      };
+
       const setSelectedTime = {
         [CONSTANTS.ATTENDANCE_HOUR]: () => {
           setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR);
@@ -228,6 +251,7 @@ export default {
           setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.MINUTE);
         }
       };
+
       setSelectedTime[timeType]();
       console.log("handleChangeTime: ", e.target.name, e.target.value);
     },
@@ -243,24 +267,24 @@ export default {
       this.isPopup = false;
       if (!attendanceTime.length && !leaveWorkTime.length) return;
 
-      if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
-        localStorage.setItem(
-          "getTimeList",
-          JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
-        );
-        return;
-      }
-      if (this.time.attendanceTime.length) {
-        localStorage.setItem(
-          "getTimeList",
-          JSON.stringify(
-            Object.assign({}, JSON.parse(getTimeList), {
-              leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
-              attendanceTime: this.time.attendanceTime
-            })
-          )
-        );
-      }
+      // if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
+      //   localStorage.setItem(
+      //     "getTimeList",
+      //     JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
+      //   );
+      //   return;
+      // }
+      // if (this.time.attendanceTime.length) {
+      //   localStorage.setItem(
+      //     "getTimeList",
+      //     JSON.stringify(
+      //       Object.assign({}, JSON.parse(getTimeList), {
+      //         leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
+      //         attendanceTime: this.time.attendanceTime
+      //       })
+      //     )
+      //   );
+      // }
       if (this.time.leaveWorkTime.length) {
         localStorage.setItem(
           "getTimeList",
