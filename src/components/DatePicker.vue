@@ -104,13 +104,53 @@ export default {
   },
   methods: {
     renderToAddCellEle() {
+      console.log("render: ", JSON.parse(this.getTimeList));
+      const getTimeList = JSON.parse(this.getTimeList);
       const cellDayList = document.querySelectorAll(".cell.day");
 
       Array.from(cellDayList).map((v, i) => {
         v.innerHTML = `
           <span class="cell_day">${i + 1}</span>
-          <span class="cell_attendanceTime"></span>
-          <span class="cell_leaveWorkTime"></span>
+          <span class="cell_attendanceTime">
+            ${
+              getTimeList.attendanceTime[i]
+                ? JSON.stringify(getTimeList.attendanceTime[i].hour) &&
+                  JSON.stringify(getTimeList.attendanceTime[i].hour).replace(
+                    /\"/g,
+                    ""
+                  )
+                : ""
+            }:
+            ${
+              getTimeList.attendanceTime[i]
+                ? JSON.stringify(getTimeList.attendanceTime[i].minute) &&
+                  JSON.stringify(getTimeList.attendanceTime[i].minute).replace(
+                    /\"/g,
+                    ""
+                  )
+                : ""
+            }
+          </span>
+          <span class="cell_leaveWorkTime">
+          ${
+            getTimeList.leaveWorkTime[i]
+              ? JSON.stringify(getTimeList.leaveWorkTime[i].hour) &&
+                JSON.stringify(getTimeList.leaveWorkTime[i].hour).replace(
+                  /\"/g,
+                  ""
+                )
+              : ""
+          }:
+            ${
+              getTimeList.leaveWorkTime[i]
+                ? JSON.stringify(getTimeList.leaveWorkTime[i].minute) &&
+                  JSON.stringify(getTimeList.leaveWorkTime[i].minute).replace(
+                    /\"/g,
+                    ""
+                  )
+                : ""
+            }
+          </span>
       `;
       });
     },
@@ -144,24 +184,35 @@ export default {
       const timeType = e.target.name;
       const selectedTime = e.target.value;
 
-      const setTargetSelectedTime = (target, dateType) => {
+      const setTargetSelectedTime = (target, dateType, initTime) => {
         const currentList = this.time[target][this.getDate - 1];
 
         if (!currentList) {
           this.time[target][this.getDate - 1] = {};
         }
-        this.time[target][this.getDate - 1][dateType] = selectedTime;
+        this.time[target][this.getDate - 1][dateType] =
+          initTime || selectedTime;
       };
 
       const setSelectedTime = {
         [CONSTANTS.ATTENDANCE_HOUR]: () => {
           setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR);
+          setTargetSelectedTime(
+            CONSTANTS.ATTENDANCE_TIME,
+            CONSTANTS.MINUTE,
+            "00"
+          );
         },
         [CONSTANTS.ATTENDANCE_MINUTE]: () => {
           setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.MINUTE);
         },
         [CONSTANTS.LEAVE_WORK_HOUR]: () => {
           setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.HOUR);
+          setTargetSelectedTime(
+            CONSTANTS.LEAVE_WORK_TIME,
+            CONSTANTS.MINUTE,
+            "00"
+          );
         },
         [CONSTANTS.LEAVE_WORK_MINUTE]: () => {
           setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.MINUTE);
@@ -182,12 +233,41 @@ export default {
       this.isPopup = false;
       if (!attendanceTime.length && !leaveWorkTime.length) return;
 
-      localStorage.setItem(
-        "getTimeList",
-        JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
-      );
+      if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
+        localStorage.setItem(
+          "getTimeList",
+          JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
+        );
+        return;
+      }
+      if (this.time.attendanceTime.length) {
+        localStorage.setItem(
+          "getTimeList",
+          JSON.stringify(
+            Object.assign({}, JSON.parse(getTimeList), {
+              leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
+              attendanceTime: this.time.attendanceTime
+            })
+          )
+        );
+      }
+      if (this.time.leaveWorkTime.length) {
+        localStorage.setItem(
+          "getTimeList",
+          JSON.stringify(
+            Object.assign({}, JSON.parse(getTimeList), {
+              attendanceTime: JSON.parse(getTimeList).attendanceTime,
+              leaveWorkTime: this.time.leaveWorkTime
+            })
+          )
+        );
+      }
 
-      console.log("closePopup: ", JSON.parse(JSON.stringify(this.time)));
+      console.log(
+        "closePopup: ",
+        JSON.parse(getTimeList),
+        JSON.parse(JSON.stringify(this.time))
+      );
     }
   },
   components: {
@@ -213,12 +293,14 @@ export default {
   height: 75px;
   border: none;
   margin-left: -1px;
+  line-height: inherit;
 }
 .cell.day {
   line-height: inherit;
 }
 .cell_day {
   display: block;
+  padding: 10px 0;
 }
 .cell_attendanceTime,
 .cell_leaveWorkTime {
