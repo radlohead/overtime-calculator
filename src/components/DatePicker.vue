@@ -98,8 +98,21 @@ export default {
     console.clear();
     this.setToday();
   },
-  mounted() {},
+  mounted() {
+    this.renderToAddCellEle();
+  },
   methods: {
+    renderToAddCellEle() {
+      const cellDayList = document.querySelectorAll(".cell.day");
+
+      Array.from(cellDayList).map((v, i) => {
+        v.innerHTML = `
+          <span class="cell_day">${i + 1}</span>
+          <span class="cell_attendanceTime"></span>
+          <span class="cell_leaveWorkTime"></span>
+      `;
+      });
+    },
     setToday() {
       const date = new Date();
       console.log("setToday: ", date.getUTCDate());
@@ -172,10 +185,35 @@ export default {
   width: auto !important;
   max-width: 600px;
   margin: 0 auto;
+  padding: 10px;
+  padding-left: 13px !important;
 }
 .today {
   color: #fff;
   background-color: #1bbf37;
+}
+.datepicker_wrapper .vdp-datepicker__calendar .cell {
+  padding: 0;
+  height: 75px;
+  border: none;
+  margin-left: -1px;
+}
+.cell.day {
+  line-height: inherit;
+}
+.cell_day {
+  display: block;
+}
+.cell_attendanceTime,
+.cell_leaveWorkTime {
+  display: block;
+  height: 18px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1px;
+}
+.cell_leaveWorkTime {
+  margin-top: -1px;
 }
 </style>
 <style scoped>
