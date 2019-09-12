@@ -204,6 +204,11 @@ export default {
           );
         },
         [CONSTANTS.ATTENDANCE_MINUTE]: () => {
+          setTargetSelectedTime(
+            CONSTANTS.ATTENDANCE_TIME,
+            CONSTANTS.HOUR,
+            "10"
+          );
           setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.MINUTE);
         },
         [CONSTANTS.LEAVE_WORK_HOUR]: () => {
@@ -215,6 +220,11 @@ export default {
           );
         },
         [CONSTANTS.LEAVE_WORK_MINUTE]: () => {
+          setTargetSelectedTime(
+            CONSTANTS.LEAVE_WORK_TIME,
+            CONSTANTS.HOUR,
+            "19"
+          );
           setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.MINUTE);
         }
       };
