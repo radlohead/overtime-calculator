@@ -270,6 +270,7 @@ export default {
         this.selectedTimeList.length !== 2 &&
         this.selectedTimeList.length !== 4
       ) {
+        alert("시간이 제대로 선택되지 않았습니다.");
         return;
       }
 
@@ -304,7 +305,10 @@ export default {
       };
 
       console.log("selectedTimeList: ", selectedTimeListCheck());
-      if (!selectedTimeListCheck()) return;
+      if (!selectedTimeListCheck()) {
+        alert("시간이 제대로 선택되지 않았습니다.");
+        return;
+      }
 
       const setList = dataType => {
         const timeList = JSON.parse(getTimeList)[dataType];
