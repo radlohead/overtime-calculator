@@ -1,6 +1,11 @@
 <template>
   <div class="root">
-    <h1>야근 수당 계산</h1>
+    <header class="header">
+      <h1 class="title">야근 수당 계산</h1>
+      <span class="current_timePay">현재 시급: {{ timePay }}원</span>
+      <span class="overtime_pay">야근 시급: {{ timePay * 1.5 }}원</span>
+      <span class="overtime_totalPay">이번달 야근 수당: {{ currentOvertimePay }}원</span>
+    </header>
     <div class="datepicker_wrapper">
       <datepicker :inline="true" @selected="handleSelectd"></datepicker>
 
@@ -103,7 +108,8 @@ export default {
       today: null,
       getTimeList: localStorage.getItem("getTimeList") || "{}",
       selectedIndex: null,
-      selectedTimeList: []
+      selectedTimeList: [],
+      currentOvertimePay: 0
     };
   },
   created() {
@@ -455,5 +461,13 @@ export default {
 }
 select {
   width: 50%;
+}
+.header {
+}
+.title {
+  font-size: 18px;
+}
+.overtime_totalPay {
+  color: red;
 }
 </style>
