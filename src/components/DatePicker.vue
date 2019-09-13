@@ -116,16 +116,22 @@ export default {
   methods: {
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
-      const attendanceTimeIndexList = JSON.parse(this.getTimeList)
-        .attendanceTime.map((v, i) => v && i)
-        .filter(v => v);
-      const leaveWorkTimeIndexList = JSON.parse(this.getTimeList)
-        .leaveWorkTime.map((v, i) => v && i)
-        .filter(v => v);
+      const attendanceTimeIndexList =
+        JSON.parse(this.getTimeList).attendanceTime &&
+        JSON.parse(this.getTimeList)
+          .attendanceTime.map((v, i) => v && i)
+          .filter(v => v);
+      const leaveWorkTimeIndexList =
+        JSON.parse(this.getTimeList).leaveWorkTime &&
+        JSON.parse(this.getTimeList)
+          .leaveWorkTime.map((v, i) => v && i)
+          .filter(v => v);
 
       Array.from(cellDayList).forEach((v, index) => {
-        if (attendanceTimeIndexList.includes(index)) v.classList.add("active");
-        if (leaveWorkTimeIndexList.includes(index)) v.classList.add("active");
+        if (attendanceTimeIndexList && attendanceTimeIndexList.includes(index))
+          v.classList.add("active");
+        if (attendanceTimeIndexList && leaveWorkTimeIndexList.includes(index))
+          v.classList.add("active");
       });
     },
     renderToAddCellEle() {
@@ -402,7 +408,7 @@ export default {
   border: 1px solid #ccc;
   background-color: #fff;
   color: #333;
-  font-size: 1px;
+  font-size: 11px;
 }
 .cell_leaveWorkTime {
   margin-top: -1px;
