@@ -5,6 +5,7 @@
       <span class="current_timePay">현재 시급: {{ timePay }}원</span>
       <span class="overtime_pay">야근 시급: {{ timePay * 1.5 }}원</span>
       <span class="overtime_totalPay">이번달 야근 수당: {{ currentOvertimePay }}원</span>
+      <span class="overtime_total">이번달 야근 시간: {{ totalOvertime }}시간</span>
     </header>
     <div class="datepicker_wrapper">
       <datepicker :inline="true" @selected="handleSelectd"></datepicker>
@@ -109,7 +110,8 @@ export default {
       getTimeList: localStorage.getItem("getTimeList") || "{}",
       selectedIndex: null,
       selectedTimeList: [],
-      currentOvertimePay: 0
+      currentOvertimePay: 0,
+      totalOvertime: 0
     };
   },
   created() {
@@ -117,13 +119,30 @@ export default {
     this.setToday();
   },
   mounted() {
-    console.log("mounted timePay: ", this.timePay);
+    console.log("mounted: ", this.timePay, JSON.parse(this.getTimeList));
     this.renderTaskAll();
+    this.totalOverTime();
   },
   computed: {
     ...mapState(["timePay"])
   },
   methods: {
+    totalOverTime() {
+      const timeList = JSON.parse(this.getTimeList);
+      const attendanceTime = timeList.attendanceTime;
+      const leaveWorkTime = timeList.leaveWorkTime;
+      let fixedTimeList = [];
+
+      attendanceTime.forEach((v, i) => {
+        if (!v || !leaveWorkTime[i]) return;
+
+        fixedTimeList.push({
+          attendanceTime: attendanceTime[i],
+          leaveWorkTime: leaveWorkTime[i]
+        });
+      });
+      console.log("totalOvertime: ", fixedTimeList);
+    },
     renderTaskAll() {
       this.renderToAddCellEle();
       this.renderToAddClass();
