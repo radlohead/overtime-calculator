@@ -178,6 +178,7 @@ export default {
       this.getMonth = date.getUTCMonth() + 1;
       this.getDate = date.getUTCDate();
       this.getDay = date.getUTCDay();
+      this.selectedIndex = this.getDate - 1;
       console.log("handleSelectd: ", this.getMonth, this.getDate, this.getDay);
 
       this.openPopup();
@@ -201,6 +202,7 @@ export default {
       const selectedTime = e.target.value;
 
       const setTargetSelectedTime = (target, dateType, initTime) => {
+        console.log("setTarget: ", initTime, selectedTime);
         const currentList = this.time[target][this.getDate - 1];
 
         if (!currentList) {
@@ -211,7 +213,7 @@ export default {
       };
 
       const handleChangeInitTime = () => {
-        setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR, "09");
+        setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR, "10");
         setTargetSelectedTime(
           CONSTANTS.ATTENDANCE_TIME,
           CONSTANTS.MINUTE,
@@ -224,38 +226,19 @@ export default {
           "00"
         );
       };
+      // handleChangeInitTime();
 
       const setSelectedTime = {
         [CONSTANTS.ATTENDANCE_HOUR]: () => {
           setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR);
-          setTargetSelectedTime(
-            CONSTANTS.ATTENDANCE_TIME,
-            CONSTANTS.MINUTE,
-            "00"
-          );
         },
         [CONSTANTS.ATTENDANCE_MINUTE]: () => {
-          setTargetSelectedTime(
-            CONSTANTS.ATTENDANCE_TIME,
-            CONSTANTS.HOUR,
-            "10"
-          );
           setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.MINUTE);
         },
         [CONSTANTS.LEAVE_WORK_HOUR]: () => {
           setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.HOUR);
-          setTargetSelectedTime(
-            CONSTANTS.LEAVE_WORK_TIME,
-            CONSTANTS.MINUTE,
-            "00"
-          );
         },
         [CONSTANTS.LEAVE_WORK_MINUTE]: () => {
-          setTargetSelectedTime(
-            CONSTANTS.LEAVE_WORK_TIME,
-            CONSTANTS.HOUR,
-            "19"
-          );
           setTargetSelectedTime(CONSTANTS.LEAVE_WORK_TIME, CONSTANTS.MINUTE);
         }
       };
@@ -273,42 +256,87 @@ export default {
       const leaveWorkTime = this.time[CONSTANTS.LEAVE_WORK_TIME];
 
       this.isPopup = false;
-      if (!attendanceTime.length && !leaveWorkTime.length) return;
+      // if (!attendanceTime.length && !leaveWorkTime.length) return;
 
-      if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
-        localStorage.setItem(
-          "getTimeList",
-          JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
+      // if (this.time.attendanceTime.length && this.time.leaveWorkTime.length) {
+      //   localStorage.setItem(
+      //     "getTimeList",
+      //     JSON.stringify(Object.assign({}, JSON.parse(getTimeList), this.time))
+      //   );
+      //   return;
+      // }
+      // if (this.time.attendanceTime.length) {
+      //   localStorage.setItem(
+      //     "getTimeList",
+      //     JSON.stringify(
+      //       Object.assign({}, JSON.parse(getTimeList), {
+      //         leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
+      //         attendanceTime: this.time.attendanceTime
+      //       })
+      //     )
+      //   );
+      // }
+      // if (this.time.leaveWorkTime.length) {
+      //   localStorage.setItem(
+      //     "getTimeList",
+      //     JSON.stringify(
+      //       Object.assign({}, JSON.parse(getTimeList), {
+      //         attendanceTime: JSON.parse(getTimeList).attendanceTime,
+      //         leaveWorkTime: this.time.leaveWorkTime
+      //       })
+      //     )
+      //   );
+      // }
+
+      const setList = dataType => {
+        const timeList = JSON.parse(getTimeList)[dataType];
+        timeList[this.selectedIndex] = this.time[dataType][this.selectedIndex];
+        console.log(
+          "set: ",
+          this.selectedIndex,
+          JSON.parse(getTimeList)[dataType],
+          timeList,
+          this.time[dataType][this.selectedIndex]
         );
-        return;
-      }
-      if (this.time.attendanceTime.length) {
-        localStorage.setItem(
-          "getTimeList",
-          JSON.stringify(
-            Object.assign({}, JSON.parse(getTimeList), {
-              leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime,
-              attendanceTime: this.time.attendanceTime
-            })
-          )
+        console.log(
+          "setList: ",
+          JSON.parse(getTimeList),
+          JSON.parse(JSON.stringify(this.time.leaveWorkTime))[
+            this.selectedIndex
+          ]
         );
-      }
-      if (this.time.leaveWorkTime.length) {
-        localStorage.setItem(
-          "getTimeList",
-          JSON.stringify(
-            Object.assign({}, JSON.parse(getTimeList), {
-              attendanceTime: JSON.parse(getTimeList).attendanceTime,
-              leaveWorkTime: this.time.leaveWorkTime
-            })
-          )
-        );
-      }
+        return Object.assign([], timeList);
+      };
+      const setInitList = dataType => {
+        const initList = Array(31).fill(null);
+
+        initList[this.selectedIndex] = this.time[dataType][this.selectedIndex];
+        console.log("setInitList: ", this.time[dataType][this.selectedIndex]);
+        return initList;
+      };
+
+      const setTimeList = {
+        attendanceTime: JSON.parse(getTimeList).attendanceTime
+          ? setList("attendanceTime")
+          : setInitList("attendanceTime"),
+        leaveWorkTime: JSON.parse(getTimeList).leaveWorkTime
+          ? setList("leaveWorkTime")
+          : setInitList("leaveWorkTime")
+      };
+      localStorage.setItem(
+        "getTimeList",
+        JSON.stringify(Object.assign({}, setTimeList))
+      );
 
       console.log(
         "closePopup: ",
+        this.selectedIndex,
         JSON.parse(getTimeList),
-        JSON.parse(JSON.stringify(this.time))
+        JSON.parse(JSON.stringify(this.time)),
+        JSON.parse(JSON.stringify(this.time.attendanceTime))[
+          this.selectedIndex
+        ],
+        JSON.parse(JSON.stringify(this.time.leaveWorkTime))[this.selectedIndex]
       );
     }
   },
@@ -350,6 +378,7 @@ export default {
   height: 18px;
   border: 1px solid #ccc;
   background-color: #fff;
+  color: #333;
   font-size: 1px;
 }
 .cell_leaveWorkTime {
