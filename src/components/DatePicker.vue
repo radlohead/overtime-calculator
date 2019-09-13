@@ -345,7 +345,11 @@ export default {
       const setList = dataType => {
         const timeList = JSON.parse(getTimeList)[dataType];
 
-        timeList[this.selectedIndex] = this.time[dataType][this.selectedIndex];
+        if (this.time[dataType][this.selectedIndex]) {
+          timeList[this.selectedIndex] = this.time[dataType][
+            this.selectedIndex
+          ];
+        }
         return Object.assign([], timeList);
       };
       const setInitList = dataType => {
