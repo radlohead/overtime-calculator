@@ -132,7 +132,12 @@ export default {
                     )
                   : ""
                 : ""
-            }:
+            }
+            ${
+              getTimeList.attendanceTime && getTimeList.attendanceTime[i]
+                ? ":"
+                : ""
+            }
             ${
               getTimeList.attendanceTime
                 ? getTimeList.attendanceTime[i]
@@ -155,7 +160,10 @@ export default {
                   )
                 : ""
               : ""
-          }:
+          }
+          ${
+            getTimeList.leaveWorkTime && getTimeList.leaveWorkTime[i] ? ":" : ""
+          }
             ${
               getTimeList.leaveWorkTime
                 ? getTimeList.leaveWorkTime[i]
@@ -201,6 +209,7 @@ export default {
       };
       const timeType = e.target.name;
       const selectedTime = e.target.value;
+      console.log("change: ", e);
 
       const setTargetSelectedTime = (target, dateType, initTime) => {
         // console.log("setTarget: ", initTime, selectedTime);
