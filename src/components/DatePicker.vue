@@ -110,10 +110,13 @@ export default {
     this.setToday();
   },
   mounted() {
-    this.renderToAddCellEle();
-    this.renderToAddClass();
+    this.renderTaskAll();
   },
   methods: {
+    renderTaskAll() {
+      this.renderToAddCellEle();
+      this.renderToAddClass();
+    },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
       const attendanceTimeIndexList =
