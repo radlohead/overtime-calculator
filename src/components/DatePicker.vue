@@ -111,10 +111,24 @@ export default {
   },
   mounted() {
     this.renderToAddCellEle();
+    this.renderToAddClass();
   },
   methods: {
+    renderToAddClass() {
+      const cellDayList = document.querySelectorAll(".cell.day");
+      const attendanceTimeIndexList = JSON.parse(this.getTimeList)
+        .attendanceTime.map((v, i) => v && i)
+        .filter(v => v);
+      const leaveWorkTimeIndexList = JSON.parse(this.getTimeList)
+        .leaveWorkTime.map((v, i) => v && i)
+        .filter(v => v);
+
+      Array.from(cellDayList).forEach((v, index) => {
+        if (attendanceTimeIndexList.includes(index)) v.classList.add("active");
+        if (leaveWorkTimeIndexList.includes(index)) v.classList.add("active");
+      });
+    },
     renderToAddCellEle() {
-      console.log("render: ", JSON.parse(this.getTimeList));
       const getTimeList = JSON.parse(this.getTimeList);
       const cellDayList = document.querySelectorAll(".cell.day");
 
@@ -373,6 +387,9 @@ export default {
 }
 .cell.day {
   line-height: inherit;
+}
+.cell.day.active {
+  background: #ddd;
 }
 .cell_day {
   display: block;
