@@ -6,6 +6,11 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     timePay: null
+  },
+  mutations: {
+    setState(state, payload) {
+      state[payload.type] = payload.data
+    }
   }
 })
 

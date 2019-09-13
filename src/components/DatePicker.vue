@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Datepicker from "vuejs-datepicker";
 
 export default {
@@ -110,7 +111,11 @@ export default {
     this.setToday();
   },
   mounted() {
+    console.log("mounted timePay: ", this.timePay);
     this.renderTaskAll();
+  },
+  computed: {
+    ...mapState(["timePay"])
   },
   methods: {
     renderTaskAll() {
