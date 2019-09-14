@@ -149,18 +149,37 @@ export default {
         const attendanceMinute = Number(v.attendanceTime.minute);
         const leaveWorkHour = Number(v.leaveWorkTime.hour);
         const leaveWorkMinute = Number(v.leaveWorkTime.minute);
-        const getHourToMinite =
-          (date.setHours(leaveWorkHour) - date.setHours(attendanceHour)) /
-          (1000 * 60);
+
+        const getHourToMinite = () => {
+          let result = null;
+
+          if (leaveWorkHour > 10 && leaveWorkHour < 24) {
+            result =
+              (date.setHours(leaveWorkHour) - date.setHours(attendanceHour)) /
+              (1000 * 60);
+          } else if (leaveWorkHour === 24) {
+            result =
+              (date.setHours(23) + 3600000 - date.setHours(attendanceHour)) /
+              (1000 * 60);
+          } else {
+            result +=
+              (date.setHours(23) + 3600000 - date.setHours(attendanceHour)) /
+              (1000 * 60);
+            result +=
+              (date.setHours(leaveWorkHour) - date.setHours(0)) / (1000 * 60);
+          }
+
+          return result;
+        };
         const getMinite =
           (date.setMinutes(leaveWorkMinute) -
             date.setMinutes(attendanceMinute)) /
           60000;
 
         if (v.isWednesday) {
-          return getHourToMinite + getMinite - 360;
+          return getHourToMinite() + getMinite - 360;
         } else {
-          return getHourToMinite + getMinite - 540;
+          return getHourToMinite() + getMinite - 540;
         }
       });
 
