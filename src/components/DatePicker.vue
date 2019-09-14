@@ -209,15 +209,22 @@ export default {
       const totalOverHour = totalOverMiniteSum / 60;
       const isWeekendList = this.fixedTimeList().map(v => v.isWeekend === true);
 
-      this.totalOvertimePay = Math.floor(totalOverHour * (this.timePay * 1.5));
-      this.totalOvertime = totalOverHour.toFixed(1);
+      const totalPay = () => {
+        return this.totalOverTime()
+          .map((minite, i) => {
+            if (isWeekendList[i]) {
+              if (minite >= 480) return (minite / 60) * (this.timePay * 2);
+              return (minite / 60) * (this.timePay * 1.5);
+            } else {
+              return (minite / 60) * (this.timePay * 1.5);
+            }
+          })
+          .reduce((p, c) => p + c)
+          .toFixed(0);
+      };
 
-      console.log(
-        "renderTotalOverTime: ",
-        this.fixedTimeList(),
-        this.totalOverTime(),
-        isWeekendList
-      );
+      this.totalOvertimePay = totalPay();
+      this.totalOvertime = totalOverHour.toFixed(1);
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
