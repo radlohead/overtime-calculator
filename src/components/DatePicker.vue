@@ -189,6 +189,8 @@ export default {
       const date = new Date();
       const fixedTimeList = [];
 
+      if (!attendanceTime) return;
+
       attendanceTime.forEach((v, i) => {
         if (!v || !leaveWorkTime[i]) return;
 
@@ -216,6 +218,8 @@ export default {
       let overTimeCount = 0;
 
       this.fixedTimeList();
+
+      if (!this.fixedTimeList()) return;
 
       const totalMiniteList = this.fixedTimeList().map(v => {
         const attendanceHour = Number(v.attendanceTime.hour);
@@ -267,6 +271,8 @@ export default {
       this.renderTotalOverTime();
     },
     renderTotalOverTime() {
+      if (!this.totalOverTime()) return;
+
       const totalOverMiniteSum =
         this.totalOverTime().reduce((p, c) => p + c) - 1200;
       const totalOverHour = totalOverMiniteSum / 60;
@@ -392,14 +398,12 @@ export default {
     },
     setToday() {
       const date = new Date();
-      // console.log("setToday: ", date.getUTCDate());
     },
     handleSelectd(date) {
       this.getMonth = date.getUTCMonth() + 1;
       this.getDate = date.getUTCDate();
       this.getDay = date.getUTCDay();
       this.selectedIndex = this.getDate - 1;
-      // console.log("handleSelectd: ", this.getMonth, this.getDate, this.getDay);
 
       this.openPopup();
     },
@@ -420,10 +424,8 @@ export default {
       };
       const timeType = e.target.name;
       const selectedTime = e.target.value;
-      console.log("change: ", e);
 
       const setTargetSelectedTime = (target, dateType, initTime) => {
-        // console.log("setTarget: ", initTime, selectedTime);
         const currentList = this.time[target][this.getDate - 1];
 
         if (!currentList) {
@@ -485,7 +487,6 @@ export default {
 
       this.isPopup = false;
 
-      console.log(1, this.selectedTimeList, this.selectedTimeList.length);
       if (
         this.selectedTimeList.length !== 2 &&
         this.selectedTimeList.length !== 4
@@ -524,7 +525,6 @@ export default {
         return result.some(v => v === true);
       };
 
-      console.log("selectedTimeList: ", selectedTimeListCheck());
       if (!selectedTimeListCheck()) {
         alert("시간이 제대로 선택되지 않았습니다.");
         return;
