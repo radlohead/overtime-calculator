@@ -131,17 +131,37 @@ export default {
       const timeList = JSON.parse(this.getTimeList);
       const attendanceTime = timeList.attendanceTime;
       const leaveWorkTime = timeList.leaveWorkTime;
+
       let fixedTimeList = [];
+      let overTimeCount = 0;
 
       attendanceTime.forEach((v, i) => {
         if (!v || !leaveWorkTime[i]) return;
 
         fixedTimeList.push({
           attendanceTime: attendanceTime[i],
-          leaveWorkTime: leaveWorkTime[i]
+          leaveWorkTime: leaveWorkTime[i],
+          day: i + 1
         });
       });
-      console.log("totalOvertime: ", fixedTimeList);
+      const totalMiniteList = fixedTimeList.map(v => {
+        const attendanceHour = Number(v.attendanceTime.hour);
+        const attendanceMinute = Number(v.attendanceTime.minute);
+        const leaveWorkHour = Number(v.leaveWorkTime.hour);
+        const leaveWorkMinute = Number(v.leaveWorkTime.minute);
+        const date = new Date();
+        const getHourToMinite =
+          (date.setHours(leaveWorkHour) - date.setHours(attendanceHour)) /
+          (1000 * 60);
+        const getMinite =
+          (date.setMinutes(leaveWorkMinute) -
+            date.setMinutes(attendanceMinute)) /
+          60000;
+
+        return getHourToMinite + getMinite;
+      });
+
+      console.log("totalMiniteList: ", fixedTimeList, totalMiniteList);
     },
     renderTaskAll() {
       this.renderToAddCellEle();

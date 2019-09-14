@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    timePay: null
+    timePay: 0
   },
   mutations: {
     setState(state, payload) {
