@@ -242,12 +242,27 @@ export default {
       this.renderTotalOverTime();
     },
     renderTotalOverTime() {
-      const totalOverMiniteSum = this.totalOverTime().reduce((p, c) => p + c);
+      const totalOverMiniteSum =
+        this.totalOverTime().reduce((p, c) => p + c) - 1200;
       const totalOverHour = totalOverMiniteSum / 60;
       const isWeekendList = this.fixedTimeList().map(v => v.isWeekend === true);
 
       const totalPay = () => {
-        return this.totalOverTime()
+        let baseMiniteCount = 1200;
+        const minusBaseOverTime = this.totalOverTime().map(v => {
+          if (v > 0 && baseMiniteCount > 0) {
+            if (v <= baseMiniteCount) {
+              baseMiniteCount = baseMiniteCount - v;
+              return 0;
+            } else {
+              return v - baseMiniteCount;
+            }
+          } else {
+            return v;
+          }
+        });
+
+        return minusBaseOverTime
           .map((minite, i) => {
             if (isWeekendList[i]) {
               if (minite >= 480) return (minite / 60) * (this.timePay * 2);
