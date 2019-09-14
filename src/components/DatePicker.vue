@@ -160,14 +160,25 @@ export default {
             date.setMinutes(attendanceMinute)) /
           60000;
 
-        return getHourToMinite + getMinite;
+        if (v.isWednesday) {
+          return getHourToMinite + getMinite - 360;
+        } else {
+          return getHourToMinite + getMinite - 540;
+        }
       });
 
-      console.log("totalMiniteList: ", fixedTimeList, totalMiniteList);
+      return totalMiniteList;
     },
     renderTaskAll() {
       this.renderToAddCellEle();
       this.renderToAddClass();
+      this.renderTotalOverTime();
+    },
+    renderTotalOverTime() {
+      const totalOverMiniteSum = this.totalOverTime().reduce((p, c) => p + c);
+      const totalOverHour = totalOverMiniteSum / 60;
+      this.totalOvertime = totalOverHour.toFixed(1);
+      console.log("renderTotalOverTime: ", totalOverMiniteSum, totalOverHour);
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
