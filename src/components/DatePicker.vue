@@ -262,7 +262,7 @@ export default {
           }
         });
 
-        return minusBaseOverTime
+        const result = minusBaseOverTime
           .map((minite, i) => {
             if (isWeekendList[i]) {
               if (minite >= 480) return (minite / 60) * (this.timePay * 2);
@@ -273,6 +273,8 @@ export default {
           })
           .reduce((p, c) => p + c)
           .toFixed(0);
+
+        return result > 0 ? result : 0;
       };
 
       this.totalOvertimePay = this.numberWithCommas(totalPay());
