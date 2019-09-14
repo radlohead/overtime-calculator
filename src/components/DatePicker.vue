@@ -2,8 +2,8 @@
   <div class="root">
     <header class="header">
       <h1 class="title">야근 수당 계산</h1>
-      <span class="current_timePay">현재 시급: {{ timePay }}원</span>
-      <span class="overtime_pay">야근 시급: {{ timePay * 1.5 }}원</span>
+      <span class="current_timePay">현재 시급: {{ numberWithCommas(timePay) }}원</span>
+      <span class="overtime_pay">야근 시급: {{ numberWithCommas(timePay * 1.5) }}원</span>
       <span class="overtime_totalPay">이번달 야근 수당: {{ totalOvertimePay }}원</span>
       <span class="overtime_total">이번달 야근 시간: {{ totalOvertime }}시간</span>
     </header>
@@ -123,6 +123,9 @@ export default {
     this.totalOverTime();
   },
   methods: {
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
     fixedTimeList() {
       const timeList = JSON.parse(this.getTimeList);
       const attendanceTime = timeList.attendanceTime;
@@ -223,7 +226,7 @@ export default {
           .toFixed(0);
       };
 
-      this.totalOvertimePay = totalPay();
+      this.totalOvertimePay = this.numberWithCommas(totalPay());
       this.totalOvertime = totalOverHour.toFixed(1);
     },
     renderToAddClass() {
