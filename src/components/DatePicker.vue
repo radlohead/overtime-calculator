@@ -1,11 +1,36 @@
 <template>
   <div class="root">
+    <h1 class="title">야근 수당 계산</h1>
     <header class="header">
-      <h1 class="title">야근 수당 계산</h1>
-      <span class="current_timePay">현재 시급: {{ numberWithCommas(timePay) }}원</span>
-      <span class="overtime_pay">야근 시급: {{ numberWithCommas(timePay * 1.5) }}원</span>
-      <span class="overtime_totalPay">이번달 야근 수당: {{ totalOvertimePay }}원</span>
-      <span class="overtime_total">이번달 야근 시간: {{ totalOvertime }}시간</span>
+      <table class="header_table">
+        <caption>야근 수당 계산</caption>
+        <tbody>
+          <tr>
+            <th>현재 시급:</th>
+            <td>
+              <span class="current_timePay">{{ numberWithCommas(timePay) }} 원</span>
+            </td>
+          </tr>
+          <tr>
+            <th>야근 시급:</th>
+            <td>
+              <span class="overtime_pay">{{ numberWithCommas(timePay * 1.5) }} 원</span>
+            </td>
+          </tr>
+          <tr>
+            <th>이번달 야근 수당:</th>
+            <td>
+              <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
+            </td>
+          </tr>
+          <tr>
+            <th>이번달 야근 시간:</th>
+            <td>
+              <span class="overtime_total">{{ totalOvertime }} 시간</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </header>
     <div class="datepicker_wrapper">
       <datepicker :inline="true" :highlighted="highlighted" @selected="handleSelectd"></datepicker>
@@ -601,9 +626,9 @@ export default {
 }
 .popup_inner {
   position: absolute;
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transform: translate(-50%, -50%); */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 80%;
   max-width: 500px;
   padding: 15px;
@@ -618,7 +643,24 @@ export default {
 select {
   width: 50%;
 }
-.header {
+.header_table {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+.header_table caption {
+  display: none;
+}
+.header_table th {
+}
+.header_table th,
+.header_table td {
+  padding: 7px 15px;
+  border: 1px solid #ddd;
 }
 .title {
   font-size: 18px;
