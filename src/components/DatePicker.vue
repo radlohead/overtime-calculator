@@ -90,7 +90,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import Datepicker from "vuejs-datepicker";
 
 export default {
@@ -108,6 +107,7 @@ export default {
       },
       today: null,
       getTimeList: localStorage.getItem("getTimeList") || "{}",
+      timePay: JSON.parse(localStorage.getItem("timePay") || {}),
       selectedIndex: null,
       selectedTimeList: [],
       currentOvertimePay: 0,
@@ -122,9 +122,6 @@ export default {
     console.log("mounted: ", this.timePay, JSON.parse(this.getTimeList));
     this.renderTaskAll();
     this.totalOverTime();
-  },
-  computed: {
-    ...mapState(["timePay"])
   },
   methods: {
     totalOverTime() {
@@ -178,7 +175,12 @@ export default {
       const totalOverMiniteSum = this.totalOverTime().reduce((p, c) => p + c);
       const totalOverHour = totalOverMiniteSum / 60;
       this.totalOvertime = totalOverHour.toFixed(1);
-      console.log("renderTotalOverTime: ", totalOverMiniteSum, totalOverHour);
+      console.log(
+        "renderTotalOverTime: ",
+        totalOverMiniteSum,
+        totalOverHour,
+        this.timePay
+      );
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");

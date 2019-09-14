@@ -7,16 +7,11 @@
   </section>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
-
 export default {
   data() {
     return {
       tempTimePay: null
     };
-  },
-  computed: {
-    ...mapState(["timePay"])
   },
   methods: {
     ...mapMutations(["setState"]),
@@ -25,10 +20,7 @@ export default {
         alert("시급을 정상적으로 입력해주세요.");
         return;
       }
-      this.setState({
-        type: "timePay",
-        data: this.tempTimePay
-      });
+      localStorage.setItem("timePay", this.tempTimePay);
       this.$router.replace("datePicker");
     }
   }
