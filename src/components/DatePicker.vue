@@ -112,6 +112,7 @@ export default {
       selectedTimeList: [],
       totalOvertimePay: 0,
       totalOvertime: 0,
+      holidayList: [],
 
       highlighted: {
         days: [0],
@@ -133,8 +134,26 @@ export default {
   mounted() {
     this.renderTaskAll();
     this.totalOverTime();
+    this.holidayListCheck();
   },
   methods: {
+    holidayListCheck() {
+      const date = new Date();
+      const dateList = () => {
+        return this.highlighted.dates.map(v => new Date(v));
+      };
+      const dateMonthAgreeList = () => {
+        const isMonthList = dateList()
+          .map(v => v.getMonth() === date.getMonth())
+          .map((v, i) => v && dateList()[i])
+          .filter(v => v);
+
+        return isMonthList;
+      };
+      const dateDayAgreeList = () => dateMonthAgreeList().map(v => v.getDate());
+
+      return dateDayAgreeList();
+    },
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
@@ -154,7 +173,10 @@ export default {
           leaveWorkTime: leaveWorkTime[i],
           day: i + 1,
           isWednesday: date.getDay() === 3,
-          isWeekend: date.getDay() === 0 || date.getDay() === 6
+          isWeekend:
+            date.getDay() === 0 ||
+            date.getDay() === 6 ||
+            this.holidayListCheck().includes(i + 1)
         });
       });
 
