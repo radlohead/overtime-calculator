@@ -8,7 +8,7 @@
       <span class="overtime_total">이번달 야근 시간: {{ totalOvertime }}시간</span>
     </header>
     <div class="datepicker_wrapper">
-      <datepicker :inline="true" @selected="handleSelectd"></datepicker>
+      <datepicker :inline="true" :highlighted="highlighted" @selected="handleSelectd"></datepicker>
 
       <template v-if="isPopup">
         <div class="popup">
@@ -111,7 +111,19 @@ export default {
       selectedIndex: null,
       selectedTimeList: [],
       totalOvertimePay: 0,
-      totalOvertime: 0
+      totalOvertime: 0,
+
+      highlighted: {
+        days: [0],
+        dates: [
+          new Date(2019, 8, 12),
+          new Date(2019, 8, 13),
+          new Date(2019, 9, 3),
+          new Date(2019, 9, 9),
+          new Date(2019, 11, 25)
+        ],
+        includeDisabled: true
+      }
     };
   },
   created() {
@@ -515,6 +527,10 @@ export default {
 }
 .cell.day.active {
   background: #ddd;
+}
+.cell.day.highlighted {
+  background: transparent !important;
+  color: red;
 }
 .cell_day {
   display: block;
