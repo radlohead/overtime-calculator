@@ -131,6 +131,7 @@ export default {
       const timeList = JSON.parse(this.getTimeList);
       const attendanceTime = timeList.attendanceTime;
       const leaveWorkTime = timeList.leaveWorkTime;
+      const date = new Date();
 
       let fixedTimeList = [];
       let overTimeCount = 0;
@@ -138,10 +139,12 @@ export default {
       attendanceTime.forEach((v, i) => {
         if (!v || !leaveWorkTime[i]) return;
 
+        date.setDate(i + 1);
         fixedTimeList.push({
           attendanceTime: attendanceTime[i],
           leaveWorkTime: leaveWorkTime[i],
-          day: i + 1
+          day: i + 1,
+          isWednesday: date.getDay() === 3
         });
       });
       const totalMiniteList = fixedTimeList.map(v => {
@@ -149,7 +152,6 @@ export default {
         const attendanceMinute = Number(v.attendanceTime.minute);
         const leaveWorkHour = Number(v.leaveWorkTime.hour);
         const leaveWorkMinute = Number(v.leaveWorkTime.minute);
-        const date = new Date();
         const getHourToMinite =
           (date.setHours(leaveWorkHour) - date.setHours(attendanceHour)) /
           (1000 * 60);
