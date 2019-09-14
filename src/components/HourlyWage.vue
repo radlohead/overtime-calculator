@@ -14,7 +14,6 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setState"]),
     handleClickNextBtn() {
       if (this.tempTimePay <= 0) {
         alert("시급을 정상적으로 입력해주세요.");
