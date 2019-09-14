@@ -111,8 +111,7 @@ export default {
       selectedIndex: null,
       selectedTimeList: [],
       totalOvertimePay: 0,
-      totalOvertime: 0,
-      fixedTimeList: []
+      totalOvertime: 0
     };
   },
   created() {
@@ -120,19 +119,16 @@ export default {
     this.setToday();
   },
   mounted() {
-    console.log("mounted: ", this.timePay, JSON.parse(this.getTimeList));
     this.renderTaskAll();
     this.totalOverTime();
   },
   methods: {
-    totalOverTime() {
+    fixedTimeList() {
       const timeList = JSON.parse(this.getTimeList);
       const attendanceTime = timeList.attendanceTime;
       const leaveWorkTime = timeList.leaveWorkTime;
       const date = new Date();
-
-      let fixedTimeList = [];
-      let overTimeCount = 0;
+      const fixedTimeList = [];
 
       attendanceTime.forEach((v, i) => {
         if (!v || !leaveWorkTime[i]) return;
@@ -146,8 +142,20 @@ export default {
           isWeekend: date.getDay() === 0 || date.getDay() === 6
         });
       });
-      console.log("fixedTimeList: ", fixedTimeList);
-      const totalMiniteList = fixedTimeList.map(v => {
+
+      return fixedTimeList;
+    },
+    totalOverTime() {
+      const timeList = JSON.parse(this.getTimeList);
+      const attendanceTime = timeList.attendanceTime;
+      const leaveWorkTime = timeList.leaveWorkTime;
+      const date = new Date();
+
+      let overTimeCount = 0;
+
+      this.fixedTimeList();
+
+      const totalMiniteList = this.fixedTimeList().map(v => {
         const attendanceHour = Number(v.attendanceTime.hour);
         const attendanceMinute = Number(v.attendanceTime.minute);
         const leaveWorkHour = Number(v.leaveWorkTime.hour);
@@ -203,7 +211,11 @@ export default {
       this.totalOvertimePay = totalOverHour * (this.timePay * 1.5);
       this.totalOvertime = totalOverHour.toFixed(1);
 
-      console.log("renderTotalOverTime: ", this.totalOverTime());
+      console.log(
+        "renderTotalOverTime: ",
+        this.fixedTimeList(),
+        this.totalOverTime()
+      );
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
