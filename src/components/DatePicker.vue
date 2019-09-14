@@ -111,7 +111,8 @@ export default {
       selectedIndex: null,
       selectedTimeList: [],
       totalOvertimePay: 0,
-      totalOvertime: 0
+      totalOvertime: 0,
+      fixedTimeList: []
     };
   },
   created() {
@@ -141,9 +142,11 @@ export default {
           attendanceTime: attendanceTime[i],
           leaveWorkTime: leaveWorkTime[i],
           day: i + 1,
-          isWednesday: date.getDay() === 3
+          isWednesday: date.getDay() === 3,
+          isWeekend: date.getDay() === 0 || date.getDay() === 6
         });
       });
+      console.log("fixedTimeList: ", fixedTimeList);
       const totalMiniteList = fixedTimeList.map(v => {
         const attendanceHour = Number(v.attendanceTime.hour);
         const attendanceMinute = Number(v.attendanceTime.minute);
@@ -176,6 +179,9 @@ export default {
             date.setMinutes(attendanceMinute)) /
           60000;
 
+        if (v.isWeekend) {
+          return getHourToMinite() + getMinite;
+        }
         if (v.isWednesday) {
           return getHourToMinite() + getMinite - 360;
         } else {
@@ -197,12 +203,7 @@ export default {
       this.totalOvertimePay = totalOverHour * (this.timePay * 1.5);
       this.totalOvertime = totalOverHour.toFixed(1);
 
-      console.log(
-        "renderTotalOverTime: ",
-        totalOverMiniteSum,
-        totalOverHour,
-        this.timePay
-      );
+      console.log("renderTotalOverTime: ", this.totalOverTime());
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
