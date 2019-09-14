@@ -207,14 +207,16 @@ export default {
     renderTotalOverTime() {
       const totalOverMiniteSum = this.totalOverTime().reduce((p, c) => p + c);
       const totalOverHour = totalOverMiniteSum / 60;
+      const isWeekendList = this.fixedTimeList().map(v => v.isWeekend === true);
 
-      this.totalOvertimePay = totalOverHour * (this.timePay * 1.5);
+      this.totalOvertimePay = Math.floor(totalOverHour * (this.timePay * 1.5));
       this.totalOvertime = totalOverHour.toFixed(1);
 
       console.log(
         "renderTotalOverTime: ",
         this.fixedTimeList(),
-        this.totalOverTime()
+        this.totalOverTime(),
+        isWeekendList
       );
     },
     renderToAddClass() {
