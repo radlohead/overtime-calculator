@@ -174,12 +174,21 @@ export default {
     this.setToday();
   },
   mounted() {
+    this.initCalendarEle();
     this.monthStartCheck();
     this.renderTaskAll();
     this.totalOverTime();
     this.holidayListCheck();
   },
   methods: {
+    initCalendarEle() {
+      const doc = window.document;
+      const prevEle = doc.querySelector(".vdp-datepicker__calendar .prev");
+      const nextEle = doc.querySelector(".vdp-datepicker__calendar .next");
+
+      prevEle.classList.add("hidden");
+      nextEle.classList.add("hidden");
+    },
     monthStartCheck() {
       const date = new Date();
       const getMonth = date.getMonth() + 1;
@@ -601,6 +610,10 @@ export default {
   margin: 0 auto;
   padding: 10px;
   padding-left: 13px !important;
+}
+.vdp-datepicker__calendar header .prev.hidden,
+.vdp-datepicker__calendar header .next.hidden {
+  visibility: hidden;
 }
 .today {
   color: #fff;
