@@ -361,6 +361,8 @@ export default {
       return totalMiniteList;
     },
     renderTaskAll() {
+      this.getTimeList = localStorage.getItem("getTimeList") || "{}";
+
       this.renderToAddCellEle();
       this.renderToAddClass();
       this.renderTotalOverTime();
@@ -373,20 +375,24 @@ export default {
       const totalOverHour = totalOverMiniteSum / 60;
       const isWeekendList = this.fixedTimeList().map(v => v.isWeekend === true);
 
-      const totalPay = () => {
-        let baseMiniteCount = 1200;
-        const minusBaseOverTime = this.totalOverTime().map(v => {
-          if (v > 0 && baseMiniteCount > 0) {
-            if (v <= baseMiniteCount) {
-              baseMiniteCount = baseMiniteCount - v;
-              return 0;
-            } else {
-              return v - baseMiniteCount;
-            }
+      let baseMiniteCount = 1200;
+      const minusBaseOverTime = this.totalOverTime().map(v => {
+        if (v > 0 && baseMiniteCount > 0) {
+          if (v <= baseMiniteCount) {
+            baseMiniteCount = baseMiniteCount - v;
+            return 0;
           } else {
-            return v;
+            return v - baseMiniteCount;
           }
-        });
+        } else {
+          return v;
+        }
+      });
+
+      const totalPay = () => {
+        const totalTime = minusBaseOverTime.reduce((p, c) => p + c);
+
+        if (totalTime <= 0) return 0;
 
         const result = minusBaseOverTime
           .map((minite, i) => {
@@ -403,10 +409,10 @@ export default {
         return result > 0 ? result : 0;
       };
 
-      console.log("totalOverTime: ", this.totalOverTime());
-
       this.totalOvertimePay = this.numberWithCommas(totalPay());
-      this.totalOvertime = totalOverHour.toFixed(1);
+      this.totalOvertime = (
+        minusBaseOverTime.reduce((p, c) => p + c) / 60
+      ).toFixed(1);
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
@@ -656,6 +662,8 @@ export default {
         "getTimeList",
         JSON.stringify(Object.assign({}, setTimeList))
       );
+
+      this.renderTaskAll();
     }
   },
   components: {
