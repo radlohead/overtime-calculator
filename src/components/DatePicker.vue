@@ -8,7 +8,7 @@
       </ul>
     </nav>
 
-    <template v-if="gnb.isDatePicker">
+    <div v-show="gnb.isDatePicker">
       <div class="datepicker_wrapper">
         <datepicker
           :inline="true"
@@ -94,9 +94,9 @@
           </div>
         </template>
       </div>
-    </template>
+    </div>
 
-    <template v-else-if="gnb.isTotalPay">
+    <div v-show="gnb.isTotalPay">
       <header class="header">
         <table class="header_table">
           <caption>야근 수당 계산</caption>
@@ -128,7 +128,7 @@
           </tbody>
         </table>
       </header>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -179,6 +179,16 @@ export default {
       }
     };
   },
+  watch: {
+    gnb: {
+      handler: function() {
+        this.getTimeList = localStorage.getItem("getTimeList") || "{}";
+        this.mountedTaskAll();
+        this.renderTaskAll();
+      },
+      deep: true
+    }
+  },
   created() {
     const timePay = localStorage.getItem("timePay");
 
@@ -190,13 +200,16 @@ export default {
   mounted() {
     this.initCalendarEle();
     this.handleEventClear();
-    this.handleClickGnb();
-    this.monthStartCheck();
+    this.mountedTaskAll();
     this.renderTaskAll();
-    this.totalOverTime();
-    this.holidayListCheck();
   },
   methods: {
+    mountedTaskAll() {
+      this.handleClickGnb();
+      this.monthStartCheck();
+      this.totalOverTime();
+      this.holidayListCheck();
+    },
     handleClickGnb(name) {
       if (!name) return;
 
@@ -389,6 +402,8 @@ export default {
 
         return result > 0 ? result : 0;
       };
+
+      console.log("totalOverTime: ", this.totalOverTime());
 
       this.totalOvertimePay = this.numberWithCommas(totalPay());
       this.totalOvertime = totalOverHour.toFixed(1);
