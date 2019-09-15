@@ -620,6 +620,10 @@ export default {
   padding: 10px;
   padding-left: 13px !important;
 }
+.vdp-datepicker__calendar .cell.day-header {
+  height: 40px !important;
+  padding-top: 10px !important;
+}
 .vdp-datepicker__calendar header .prev.hidden,
 .vdp-datepicker__calendar header .next.hidden {
   visibility: hidden;
