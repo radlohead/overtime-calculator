@@ -370,8 +370,10 @@ export default {
     renderTotalOverTime() {
       if (!this.totalOverTime() || !this.totalOverTime().length) return;
 
-      const totalOverMiniteSum =
-        this.totalOverTime().reduce((p, c) => p + c) - 1200;
+      const totalOverMiniteSum = (
+        (this.totalOverTime().reduce((p, c) => p + c) - 1200) /
+        60
+      ).toFixed(1);
       const totalOverHour = totalOverMiniteSum / 60;
       const isWeekendList = this.fixedTimeList().map(v => v.isWeekend === true);
 
@@ -382,7 +384,15 @@ export default {
             baseMiniteCount = baseMiniteCount - v;
             return 0;
           } else {
-            return v - baseMiniteCount;
+            if (baseMiniteCount - v > 0) {
+              baseMiniteCount = v - baseMiniteCount;
+              return v - baseMiniteCount;
+            } else {
+              const operator = v - baseMiniteCount;
+
+              baseMiniteCount = 0;
+              return operator;
+            }
           }
         } else {
           return v;
@@ -410,9 +420,7 @@ export default {
       };
 
       this.totalOvertimePay = this.numberWithCommas(totalPay());
-      this.totalOvertime = (
-        minusBaseOverTime.reduce((p, c) => p + c) / 60
-      ).toFixed(1);
+      this.totalOvertime = totalOverMiniteSum;
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
