@@ -5,7 +5,6 @@
       <datepicker
         :inline="true"
         :highlighted="highlighted"
-        :full-month-name="true"
         :language="ko"
         @selected="handleSelectd"
       ></datepicker>
@@ -175,12 +174,22 @@ export default {
   },
   mounted() {
     this.initCalendarEle();
+    this.handleEventClear();
     this.monthStartCheck();
     this.renderTaskAll();
     this.totalOverTime();
     this.holidayListCheck();
   },
   methods: {
+    handleEventClear() {
+      const header = window.document.querySelector(
+        ".vdp-datepicker__calendar header"
+      );
+      const createElementDiv = window.document.createElement("div");
+
+      createElementDiv.classList.add("header_blank");
+      header.appendChild(createElementDiv);
+    },
     initCalendarEle() {
       const doc = window.document;
       const prevEle = doc.querySelector(".vdp-datepicker__calendar .prev");
@@ -614,6 +623,17 @@ export default {
 .vdp-datepicker__calendar header .prev.hidden,
 .vdp-datepicker__calendar header .next.hidden {
   visibility: hidden;
+}
+.vdp-datepicker__calendar header {
+  position: relative;
+}
+.header_blank {
+  position: absolute;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
 }
 .today {
   color: #fff;
