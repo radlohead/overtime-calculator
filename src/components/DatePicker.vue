@@ -2,7 +2,13 @@
   <div class="root">
     <h1 class="title">야근 수당 계산</h1>
     <div class="datepicker_wrapper">
-      <datepicker :inline="true" :highlighted="highlighted" @selected="handleSelectd"></datepicker>
+      <datepicker
+        :inline="true"
+        :highlighted="highlighted"
+        :full-month-name="true"
+        :language="ko"
+        @selected="handleSelectd"
+      ></datepicker>
 
       <template v-if="isPopup">
         <div class="popup">
@@ -116,11 +122,13 @@
 </template>
 
 <script>
+import { ko } from "vuejs-datepicker/dist/locale";
 import Datepicker from "vuejs-datepicker";
 
 export default {
   data() {
     return {
+      ko,
       isPopup: false,
       date: {
         getMonth: null,
