@@ -1,37 +1,6 @@
 <template>
   <div class="root">
     <h1 class="title">야근 수당 계산</h1>
-    <header class="header">
-      <table class="header_table">
-        <caption>야근 수당 계산</caption>
-        <tbody>
-          <tr>
-            <th>현재 시급:</th>
-            <td>
-              <span class="current_timePay">{{ numberWithCommas(timePay) }} 원</span>
-            </td>
-          </tr>
-          <tr>
-            <th>야근 시급:</th>
-            <td>
-              <span class="overtime_pay">{{ numberWithCommas(timePay * 1.5) }} 원</span>
-            </td>
-          </tr>
-          <tr>
-            <th>이번달 야근 수당:</th>
-            <td>
-              <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
-            </td>
-          </tr>
-          <tr>
-            <th>이번달 야근 시간:</th>
-            <td>
-              <span class="overtime_total">{{ totalOvertime }} 시간</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </header>
     <div class="datepicker_wrapper">
       <datepicker :inline="true" :highlighted="highlighted" @selected="handleSelectd"></datepicker>
 
@@ -111,6 +80,38 @@
         </div>
       </template>
     </div>
+
+    <header class="header">
+      <table class="header_table">
+        <caption>야근 수당 계산</caption>
+        <tbody>
+          <tr>
+            <th>현재 시급:</th>
+            <td>
+              <span class="current_timePay">{{ numberWithCommas(timePay) }} 원</span>
+            </td>
+          </tr>
+          <tr>
+            <th>야근 시급:</th>
+            <td>
+              <span class="overtime_pay">{{ numberWithCommas(timePay * 1.5) }} 원</span>
+            </td>
+          </tr>
+          <tr>
+            <th>이번달 야근 수당:</th>
+            <td>
+              <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
+            </td>
+          </tr>
+          <tr>
+            <th>이번달 야근 시간:</th>
+            <td>
+              <span class="overtime_total">{{ totalOvertime }} 시간</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </header>
   </div>
 </template>
 
@@ -633,6 +634,7 @@ export default {
 <style scoped>
 .datepicker_wrapper {
   position: relative;
+  margin-bottom: 20px;
 }
 .popup {
   position: fixed;
@@ -661,7 +663,7 @@ select {
   width: 50%;
 }
 .header_table {
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   z-index: 10;
   margin: 0 auto;
