@@ -288,7 +288,7 @@ export default {
       this.renderTotalOverTime();
     },
     renderTotalOverTime() {
-      if (!this.totalOverTime()) return;
+      if (!this.totalOverTime() || !this.totalOverTime().length) return;
 
       const totalOverMiniteSum =
         this.totalOverTime().reduce((p, c) => p + c) - 1200;
