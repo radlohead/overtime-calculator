@@ -1,123 +1,134 @@
 <template>
   <div class="root">
-    <h1 class="title">야근 수당 계산</h1>
-    <div class="datepicker_wrapper">
-      <datepicker
-        :inline="true"
-        :highlighted="highlighted"
-        :language="ko"
-        @selected="handleSelectd"
-      ></datepicker>
+    <h1 class="title">이번달 야근 수당</h1>
+    <nav class="gnb">
+      <ul>
+        <li @click="handleClickGnb('DATE_PICKER')" class="date_picker active">달력 보기</li>
+        <li @click="handleClickGnb('TOTAL_PAY')" class="total_pay">전체 금액 보기</li>
+      </ul>
+    </nav>
 
-      <template v-if="isPopup">
-        <div class="popup">
-          <div class="popup_inner">
-            <section>
-              <h3 class="popup_inner_title">출근 시간:</h3>
-              <div class="selectBox">
-                <select name="attendanceHour" @change="handleChangeTime">
-                  <option disabled value selected>출근 시간(Hour)을 선택해 주세요.</option>
-                  <option value="09">9시</option>
-                  <option value="10">10시</option>
-                  <option value="11">11시</option>
-                  <option value="12">12시</option>
-                  <option value="13">13시</option>
-                  <option value="14">14시</option>
-                  <option value="15">15시</option>
-                </select>
-                <select name="attendanceMinute" @change="handleChangeTime">
-                  <option disabled value selected>출근 분(Minute)을 선택해 주세요.</option>
-                  <option value="00">0분</option>
-                  <option value="05">5분</option>
-                  <option value="10">10분</option>
-                  <option value="15">15분</option>
-                  <option value="20">20분</option>
-                  <option value="25">25분</option>
-                  <option value="30">30분</option>
-                  <option value="35">35분</option>
-                  <option value="40">40분</option>
-                  <option value="45">45분</option>
-                  <option value="50">50분</option>
-                  <option value="55">55분</option>
-                </select>
-              </div>
-            </section>
-            <section>
-              <h3 class="popup_inner_title">퇴근 시간:</h3>
-              <div class="selectBox">
-                <select name="leaveWorkHour" @change="handleChangeTime">
-                  <option disabled value selected>퇴근 시간(Hour)을 선택해 주세요.</option>
-                  <option value="14">14시</option>
-                  <option value="15">15시</option>
-                  <option value="16">16시</option>
-                  <option value="17">17시</option>
-                  <option value="18">18시</option>
-                  <option value="19">19시</option>
-                  <option value="20">20시</option>
-                  <option value="21">21시</option>
-                  <option value="22">22시</option>
-                  <option value="23">23시</option>
-                  <option value="24">24시</option>
-                  <option value="01">1시</option>
-                  <option value="02">2시</option>
-                  <option value="03">3시</option>
-                  <option value="04">4시</option>
-                </select>
-                <select name="leaveWorkMinute" @change="handleChangeTime">
-                  <option disabled value selected>퇴근 분(Minute)을 선택해 주세요.</option>
-                  <option value="00">0분</option>
-                  <option value="05">5분</option>
-                  <option value="10">10분</option>
-                  <option value="15">15분</option>
-                  <option value="20">20분</option>
-                  <option value="25">25분</option>
-                  <option value="30">30분</option>
-                  <option value="35">35분</option>
-                  <option value="40">40분</option>
-                  <option value="45">45분</option>
-                  <option value="50">50분</option>
-                  <option value="55">55분</option>
-                </select>
-              </div>
-            </section>
-            <span class="horizon-line"></span>
-            <button class="popup_inner_submitBtn" @click="handleClickClosePopup">입력 완료</button>
+    <template v-if="gnb.isDatePicker">
+      <div class="datepicker_wrapper">
+        <datepicker
+          :inline="true"
+          :highlighted="highlighted"
+          :language="ko"
+          @selected="handleSelectd"
+        ></datepicker>
+
+        <template v-if="isPopup">
+          <div class="popup">
+            <div class="popup_inner">
+              <section>
+                <h3 class="popup_inner_title">출근 시간:</h3>
+                <div class="selectBox">
+                  <select name="attendanceHour" @change="handleChangeTime">
+                    <option disabled value selected>출근 시간(Hour)을 선택해 주세요.</option>
+                    <option value="09">9시</option>
+                    <option value="10">10시</option>
+                    <option value="11">11시</option>
+                    <option value="12">12시</option>
+                    <option value="13">13시</option>
+                    <option value="14">14시</option>
+                    <option value="15">15시</option>
+                  </select>
+                  <select name="attendanceMinute" @change="handleChangeTime">
+                    <option disabled value selected>출근 분(Minute)을 선택해 주세요.</option>
+                    <option value="00">0분</option>
+                    <option value="05">5분</option>
+                    <option value="10">10분</option>
+                    <option value="15">15분</option>
+                    <option value="20">20분</option>
+                    <option value="25">25분</option>
+                    <option value="30">30분</option>
+                    <option value="35">35분</option>
+                    <option value="40">40분</option>
+                    <option value="45">45분</option>
+                    <option value="50">50분</option>
+                    <option value="55">55분</option>
+                  </select>
+                </div>
+              </section>
+              <section>
+                <h3 class="popup_inner_title">퇴근 시간:</h3>
+                <div class="selectBox">
+                  <select name="leaveWorkHour" @change="handleChangeTime">
+                    <option disabled value selected>퇴근 시간(Hour)을 선택해 주세요.</option>
+                    <option value="14">14시</option>
+                    <option value="15">15시</option>
+                    <option value="16">16시</option>
+                    <option value="17">17시</option>
+                    <option value="18">18시</option>
+                    <option value="19">19시</option>
+                    <option value="20">20시</option>
+                    <option value="21">21시</option>
+                    <option value="22">22시</option>
+                    <option value="23">23시</option>
+                    <option value="24">24시</option>
+                    <option value="01">1시</option>
+                    <option value="02">2시</option>
+                    <option value="03">3시</option>
+                    <option value="04">4시</option>
+                  </select>
+                  <select name="leaveWorkMinute" @change="handleChangeTime">
+                    <option disabled value selected>퇴근 분(Minute)을 선택해 주세요.</option>
+                    <option value="00">0분</option>
+                    <option value="05">5분</option>
+                    <option value="10">10분</option>
+                    <option value="15">15분</option>
+                    <option value="20">20분</option>
+                    <option value="25">25분</option>
+                    <option value="30">30분</option>
+                    <option value="35">35분</option>
+                    <option value="40">40분</option>
+                    <option value="45">45분</option>
+                    <option value="50">50분</option>
+                    <option value="55">55분</option>
+                  </select>
+                </div>
+              </section>
+              <span class="horizon-line"></span>
+              <button class="popup_inner_submitBtn" @click="handleClickClosePopup">입력 완료</button>
+            </div>
           </div>
-        </div>
-      </template>
-    </div>
+        </template>
+      </div>
+    </template>
 
-    <header class="header">
-      <table class="header_table">
-        <caption>야근 수당 계산</caption>
-        <tbody>
-          <tr>
-            <th>현재 시급:</th>
-            <td>
-              <span class="current_timePay">{{ numberWithCommas(timePay) }} 원</span>
-            </td>
-          </tr>
-          <tr>
-            <th>야근 시급:</th>
-            <td>
-              <span class="overtime_pay">{{ numberWithCommas(timePay * 1.5) }} 원</span>
-            </td>
-          </tr>
-          <tr>
-            <th>이번달 야근 수당:</th>
-            <td>
-              <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
-            </td>
-          </tr>
-          <tr>
-            <th>이번달 야근 시간:</th>
-            <td>
-              <span class="overtime_total">{{ totalOvertime }} 시간</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </header>
+    <template v-else-if="gnb.isTotalPay">
+      <header class="header">
+        <table class="header_table">
+          <caption>야근 수당 계산</caption>
+          <tbody>
+            <tr>
+              <th>현재 시급:</th>
+              <td>
+                <span class="current_timePay">{{ numberWithCommas(timePay) }} 원</span>
+              </td>
+            </tr>
+            <tr>
+              <th>야근 시급:</th>
+              <td>
+                <span class="overtime_pay">{{ numberWithCommas(timePay * 1.5) }} 원</span>
+              </td>
+            </tr>
+            <tr>
+              <th>이번달 야근 수당:</th>
+              <td>
+                <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
+              </td>
+            </tr>
+            <tr>
+              <th>이번달 야근 시간:</th>
+              <td>
+                <span class="overtime_total">{{ totalOvertime }} 시간</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </header>
+    </template>
   </div>
 </template>
 
@@ -150,6 +161,10 @@ export default {
       currentMonth:
         localStorage.getItem("currentMonth") ||
         localStorage.setItem("currentMonth", new Date().getMonth() + 1),
+      gnb: {
+        isDatePicker: true,
+        isTotalPay: false
+      },
 
       highlighted: {
         days: [0],
@@ -175,12 +190,34 @@ export default {
   mounted() {
     this.initCalendarEle();
     this.handleEventClear();
+    this.handleClickGnb();
     this.monthStartCheck();
     this.renderTaskAll();
     this.totalOverTime();
     this.holidayListCheck();
   },
   methods: {
+    handleClickGnb(name) {
+      if (!name) return;
+
+      const CONSTANTS = {
+        DATE_PICKER: "isDatePicker",
+        TOTAL_PAY: "isTotalPay"
+      };
+      const gnbKeys = Object.keys(this.gnb);
+      const listEle = window.document.querySelectorAll(".gnb ul li");
+      const targetEle = window.document.querySelector(`.${name.toLowerCase()}`);
+
+      gnbKeys.forEach(key => {
+        this.gnb[key] = false;
+      });
+      this.gnb[CONSTANTS[name]] = true;
+
+      Array.from(listEle).forEach(item => {
+        item.classList.remove("active");
+      });
+      targetEle.classList.add("active");
+    },
     handleEventClear() {
       const header = window.document.querySelector(
         ".vdp-datepicker__calendar header"
@@ -741,5 +778,31 @@ select {
 }
 .overtime_totalPay {
   color: red;
+}
+.gnb ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.gnb ul li {
+  padding: 5px 3px;
+  margin-left: -1px;
+  cursor: pointer;
+  color: #34495e;
+}
+.gnb ul li.active {
+  color: #42b983;
+  font-weight: bold;
+}
+.gnb ul li:not(:first-child):before {
+  content: "";
+  display: inline-block;
+  height: 12px;
+  padding-right: 5px;
+  border-left: 1px solid #ddd;
 }
 </style>
