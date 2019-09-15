@@ -132,7 +132,7 @@ export default {
       },
       today: null,
       getTimeList: localStorage.getItem("getTimeList") || "{}",
-      timePay: JSON.parse(localStorage.getItem("timePay") || {}),
+      timePay: JSON.parse(localStorage.getItem("timePay") || "{}"),
       selectedIndex: null,
       selectedTimeList: [],
       totalOvertimePay: 0,
@@ -153,6 +153,11 @@ export default {
     };
   },
   created() {
+    const timePay = localStorage.getItem("timePay");
+
+    if (timePay) return;
+    this.$router.replace("/");
+
     console.clear();
     this.setToday();
   },

@@ -13,6 +13,12 @@ export default {
       tempTimePay: null
     };
   },
+  created() {
+    const timePay = localStorage.getItem("timePay");
+
+    if (!timePay) return;
+    this.$router.replace("datePicker");
+  },
   methods: {
     handleClickNextBtn() {
       if (this.tempTimePay <= 0) {
