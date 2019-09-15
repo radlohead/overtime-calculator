@@ -14,10 +14,10 @@
         <div class="popup">
           <div class="popup_inner">
             <section>
-              <h3>출근 시간:</h3>
+              <h3 class="popup_inner_title">출근 시간:</h3>
               <div class="selectBox">
-                <select name="attendanceHour" @change="handleChangeTime" multiple>
-                  <option disabled value>출근 시(Hour)를 선택해 주세요.</option>
+                <select name="attendanceHour" @change="handleChangeTime">
+                  <option disabled value selected>출근 시간(Hour)을 선택해 주세요.</option>
                   <option value="09">9시</option>
                   <option value="10">10시</option>
                   <option value="11">11시</option>
@@ -26,8 +26,8 @@
                   <option value="14">14시</option>
                   <option value="15">15시</option>
                 </select>
-                <select name="attendanceMinute" @change="handleChangeTime" multiple>
-                  <option disabled value>출근 분(Minute)을 선택해 주세요.</option>
+                <select name="attendanceMinute" @change="handleChangeTime">
+                  <option disabled value selected>출근 분(Minute)을 선택해 주세요.</option>
                   <option value="00">0분</option>
                   <option value="05">5분</option>
                   <option value="10">10분</option>
@@ -44,10 +44,10 @@
               </div>
             </section>
             <section>
-              <h3>퇴근 시간:</h3>
+              <h3 class="popup_inner_title">퇴근 시간:</h3>
               <div class="selectBox">
-                <select name="leaveWorkHour" @change="handleChangeTime" multiple>
-                  <option disabled value>퇴근 시(Hour)를 선택해 주세요.</option>
+                <select name="leaveWorkHour" @change="handleChangeTime">
+                  <option disabled value selected>퇴근 시간(Hour)을 선택해 주세요.</option>
                   <option value="14">14시</option>
                   <option value="15">15시</option>
                   <option value="16">16시</option>
@@ -64,8 +64,8 @@
                   <option value="03">3시</option>
                   <option value="04">4시</option>
                 </select>
-                <select name="leaveWorkMinute" @change="handleChangeTime" multiple>
-                  <option disabled value>퇴근 분(Minute)을 선택해 주세요.</option>
+                <select name="leaveWorkMinute" @change="handleChangeTime">
+                  <option disabled value selected>퇴근 분(Minute)을 선택해 주세요.</option>
                   <option value="00">0분</option>
                   <option value="05">5분</option>
                   <option value="10">10분</option>
@@ -81,7 +81,8 @@
                 </select>
               </div>
             </section>
-            <button @click="handleClickClosePopup">입력 완료</button>
+            <span class="horizon-line"></span>
+            <button class="popup_inner_submitBtn" @click="handleClickClosePopup">입력 완료</button>
           </div>
         </div>
       </template>
@@ -658,10 +659,13 @@ export default {
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 500px;
-  padding: 15px;
+  padding: 0 15px 15px;
   margin: 0 auto;
   border: 1px solid #bdbdbd;
   background-color: #fff;
+}
+.popup_inner_title {
+  font-size: 14px;
 }
 .selectBox {
   display: flex;
@@ -670,10 +674,16 @@ export default {
 select {
   width: 50%;
 }
+.horizon-line {
+  display: block;
+  margin: 15px 0;
+  border-top: 1px solid #ddd;
+}
+.popup_inner_submitBtn {
+  padding: 10px 13px;
+  border: 1px solid #ddd;
+}
 .header_table {
-  /* position: absolute; */
-  top: 0;
-  z-index: 10;
   margin: 0 auto;
   border: 1px solid #ddd;
   border-collapse: collapse;
