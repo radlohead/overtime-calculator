@@ -138,6 +138,9 @@ export default {
       totalOvertimePay: 0,
       totalOvertime: 0,
       holidayList: [],
+      currentMonth:
+        localStorage.getItem("currentMonth") ||
+        localStorage.setItem("currentMonth", new Date().getMonth() + 1),
 
       highlighted: {
         days: [0],
@@ -158,15 +161,24 @@ export default {
     if (timePay) return;
     this.$router.replace("/");
 
-    console.clear();
     this.setToday();
   },
   mounted() {
+    this.monthStartCheck();
     this.renderTaskAll();
     this.totalOverTime();
     this.holidayListCheck();
   },
   methods: {
+    monthStartCheck() {
+      const date = new Date();
+      const getMonth = date.getMonth() + 1;
+
+      if (Number(this.currentMonth) === getMonth) return;
+
+      localStorage.setItem("currentMonth", getMonth);
+      localStorage.setItem("getTimeList", "{}");
+    },
     holidayListCheck() {
       const date = new Date();
       const dateList = () => {
