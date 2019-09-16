@@ -251,8 +251,10 @@ export default {
     monthStartCheck() {
       const date = new Date();
       const getMonth = date.getMonth() + 1;
+      const currentMonth =
+        this.currentMonth || localStorage.getItem("currentMonth");
 
-      if (Number(this.currentMonth) === getMonth) return;
+      if (Number(currentMonth) === getMonth) return;
 
       localStorage.setItem("currentMonth", getMonth);
       localStorage.setItem("getTimeList", "{}");
@@ -602,7 +604,6 @@ export default {
         this.selectedTimeList.length !== 2 &&
         this.selectedTimeList.length !== 4
       ) {
-        alert("시간이 제대로 선택되지 않았습니다.");
         return;
       }
 
