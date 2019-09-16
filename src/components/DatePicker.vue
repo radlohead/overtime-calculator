@@ -18,7 +18,7 @@
         ></datepicker>
 
         <template v-if="isPopup">
-          <div class="popup">
+          <div class="popup" @click="handleClickPopup">
             <div class="popup_inner">
               <section>
                 <h3 class="popup_inner_title">출근 시간:</h3>
@@ -209,6 +209,11 @@ export default {
       this.monthStartCheck();
       this.totalOverTime();
       this.holidayListCheck();
+    },
+    handleClickPopup(e) {
+      const targetPopup = e.target.getAttribute("class") === "popup";
+
+      if (targetPopup) this.isPopup = false;
     },
     handleClickGnb(name) {
       if (!name) return;
