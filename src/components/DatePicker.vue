@@ -198,13 +198,13 @@ export default {
     this.setToday();
   },
   mounted() {
-    this.initCalendarEle();
-    this.handleEventClear();
     this.mountedTaskAll();
     this.renderTaskAll();
   },
   methods: {
     mountedTaskAll() {
+      this.initCalendarEle();
+      this.handleEventClear();
       this.handleClickGnb();
       this.monthStartCheck();
       this.totalOverTime();
