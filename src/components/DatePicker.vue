@@ -128,6 +128,7 @@
           </tbody>
         </table>
       </header>
+      <button class="timePay_init" @click="handleClickTimePayInit">시급 초기화</button>
     </div>
   </div>
 </template>
@@ -209,6 +210,10 @@ export default {
       this.monthStartCheck();
       this.totalOverTime();
       this.holidayListCheck();
+    },
+    handleClickTimePayInit() {
+      localStorage.removeItem("timePay");
+      this.$router.replace("/");
     },
     handleClickPopup(e) {
       const targetPopup = e.target.getAttribute("class") === "popup";
@@ -842,5 +847,11 @@ select {
   height: 12px;
   padding-right: 5px;
   border-left: 1px solid #ddd;
+}
+.timePay_init {
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
 }
 </style>
