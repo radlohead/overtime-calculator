@@ -3,11 +3,16 @@
     <h1 class="title">이번달 야근 수당</h1>
     <nav class="gnb">
       <ul>
-        <li @click="handleClickGnb('DATE_PICKER')" class="date_picker active">달력 보기</li>
+        <li @click="handleClickGnb('COMMUTE')" class="commute active">출·퇴근 체크</li>
+        <li @click="handleClickGnb('DATE_PICKER')" class="date_picker">달력 보기</li>
         <li @click="handleClickGnb('TOTAL_PAY')" class="total_pay">전체 금액 보기</li>
       </ul>
     </nav>
 
+    <div v-if="gnb.isCommute">
+      <button @click="handleClickQuickBtn('ATTENDANCE_TIME')">출근</button>
+      <button @click="handleClickQuickBtn('LEAVE_WORK_TIME')">퇴근</button>
+    </div>
     <div v-show="gnb.isDatePicker">
       <div class="datepicker_wrapper">
         <datepicker
@@ -163,7 +168,8 @@ export default {
         localStorage.getItem("currentMonth") ||
         localStorage.setItem("currentMonth", new Date().getMonth() + 1),
       gnb: {
-        isDatePicker: true,
+        isCommute: true,
+        isDatePicker: false,
         isTotalPay: false
       },
 
@@ -177,6 +183,11 @@ export default {
           new Date(2019, 11, 25)
         ],
         includeDisabled: true
+      },
+      quickTime: {
+        type: "",
+        hour: "",
+        minute: ""
       }
     };
   },
@@ -224,6 +235,7 @@ export default {
       if (!name) return;
 
       const CONSTANTS = {
+        COMMUTE: "isCommute",
         DATE_PICKER: "isDatePicker",
         TOTAL_PAY: "isTotalPay"
       };
@@ -533,7 +545,45 @@ export default {
     openPopup() {
       this.isPopup = true;
     },
-    handleChangeTime(e) {
+    handleClickQuickBtn(e) {
+      const CONSTANTS = {
+        ATTENDANCE: "ATTENDANCE_TIME",
+        LEAVE_WORK: "LEAVE_WORK_TIME",
+
+        ATTENDANCE_HOUR: "attendanceHour",
+        ATTENDANCE_MINUTE: "attendanceMinute",
+        LEAVE_WORK_HOUR: "leaveWorkHour",
+        LEAVE_WORK_MINUTE: "leaveWorkMinute"
+      };
+      const date = new Date();
+      this.getMonth = date.getUTCMonth() + 1;
+      this.getDate = date.getUTCDate();
+      this.getDay = date.getUTCDay();
+      this.selectedIndex = this.getDate - 1;
+
+      if (CONSTANTS.ATTENDANCE === e) {
+        this.handleChangeTime(
+          CONSTANTS.ATTENDANCE_HOUR,
+          String(date.getHours())
+        );
+        this.handleChangeTime(
+          CONSTANTS.ATTENDANCE_MINUTE,
+          String(date.getMinutes())
+        );
+      }
+      if (CONSTANTS.LEAVE_WORK === e) {
+        this.handleChangeTime(
+          CONSTANTS.LEAVE_WORK_HOUR,
+          String(date.getHours())
+        );
+        this.handleChangeTime(
+          CONSTANTS.LEAVE_WORK_MINUTE,
+          String(date.getMinutes())
+        );
+      }
+      this.handleClickClosePopup();
+    },
+    handleChangeTime(e, time) {
       const CONSTANTS = {
         ATTENDANCE_HOUR: "attendanceHour",
         ATTENDANCE_MINUTE: "attendanceMinute",
@@ -545,8 +595,8 @@ export default {
         HOUR: "hour",
         MINUTE: "minute"
       };
-      const timeType = e.target.name;
-      const selectedTime = e.target.value;
+      const timeType = time ? e : e.target.name;
+      const selectedTime = time ? time : e.target.value;
 
       const setTargetSelectedTime = (target, dateType, initTime) => {
         const currentList = this.time[target][this.getDate - 1];
@@ -557,7 +607,6 @@ export default {
         this.time[target][this.getDate - 1][dateType] =
           initTime || selectedTime;
       };
-
       const handleChangeInitTime = () => {
         setTargetSelectedTime(CONSTANTS.ATTENDANCE_TIME, CONSTANTS.HOUR, "10");
         setTargetSelectedTime(
