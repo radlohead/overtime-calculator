@@ -561,25 +561,22 @@ export default {
       this.getDay = date.getUTCDay();
       this.selectedIndex = this.getDate - 1;
 
+      const getHours =
+        String(date.getHours()).length === 1
+          ? `0${String(date.getHours())}`
+          : String(date.getHours());
+      const getMinite =
+        String(date.getMinutes()).length === 1
+          ? `0${String(date.getMinutes())}`
+          : String(date.getMinutes());
+
       if (CONSTANTS.ATTENDANCE === e) {
-        this.handleChangeTime(
-          CONSTANTS.ATTENDANCE_HOUR,
-          String(date.getHours())
-        );
-        this.handleChangeTime(
-          CONSTANTS.ATTENDANCE_MINUTE,
-          String(date.getMinutes())
-        );
+        this.handleChangeTime(CONSTANTS.ATTENDANCE_HOUR, getHours);
+        this.handleChangeTime(CONSTANTS.ATTENDANCE_MINUTE, getMinite);
       }
       if (CONSTANTS.LEAVE_WORK === e) {
-        this.handleChangeTime(
-          CONSTANTS.LEAVE_WORK_HOUR,
-          String(date.getHours())
-        );
-        this.handleChangeTime(
-          CONSTANTS.LEAVE_WORK_MINUTE,
-          String(date.getMinutes())
-        );
+        this.handleChangeTime(CONSTANTS.LEAVE_WORK_HOUR, getHours);
+        this.handleChangeTime(CONSTANTS.LEAVE_WORK_MINUTE, getMinite);
       }
       this.handleClickClosePopup();
     },
