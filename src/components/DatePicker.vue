@@ -10,8 +10,8 @@
     </nav>
 
     <div v-if="gnb.isCommute">
-      <button @click="handleClickQuickBtn('ATTENDANCE_TIME')">출근</button>
-      <button @click="handleClickQuickBtn('LEAVE_WORK_TIME')">퇴근</button>
+      <b-button size="lg" @click="handleClickQuickBtn('ATTENDANCE_TIME')">출근</b-button>
+      <b-button size="lg" @click="handleClickQuickBtn('LEAVE_WORK_TIME')">퇴근</b-button>
     </div>
     <div v-show="gnb.isDatePicker">
       <div class="datepicker_wrapper">
@@ -741,6 +741,9 @@ export default {
 </script>
 
 <style>
+.root {
+  padding: 20px;
+}
 .vdp-datepicker__calendar {
   width: auto !important;
   max-width: 600px;
@@ -825,7 +828,7 @@ export default {
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 500px;
-  padding: 0 15px 15px;
+  padding: 15px;
   margin: 0 auto;
   border: 1px solid #bdbdbd;
   background-color: #fff;
