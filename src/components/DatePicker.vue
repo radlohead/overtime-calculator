@@ -478,33 +478,35 @@ export default {
     renderToAddCellEle() {
       const getTimeList = JSON.parse(this.getTimeList);
       const cellDayList = document.querySelectorAll(".cell.day");
+      let count = 0;
 
       Array.from(cellDayList).map((v, i) => {
+        if (v.classList.contains("blank")) return;
+
         v.innerHTML = `
-          <span class="cell_day">${i + 1}</span>
+          <span class="cell_day">${count + 1}</span>
           <span class="cell_attendanceTime">
             ${
               getTimeList.attendanceTime
-                ? getTimeList.attendanceTime[i]
-                  ? JSON.stringify(getTimeList.attendanceTime[i].hour) &&
-                    JSON.stringify(getTimeList.attendanceTime[i].hour).replace(
-                      /\"/g,
-                      ""
-                    )
+                ? getTimeList.attendanceTime[count]
+                  ? JSON.stringify(getTimeList.attendanceTime[count].hour) &&
+                    JSON.stringify(
+                      getTimeList.attendanceTime[count].hour
+                    ).replace(/\"/g, "")
                   : ""
                 : ""
             }
             ${
-              getTimeList.attendanceTime && getTimeList.attendanceTime[i]
+              getTimeList.attendanceTime && getTimeList.attendanceTime[count]
                 ? ":"
                 : ""
             }
             ${
               getTimeList.attendanceTime
-                ? getTimeList.attendanceTime[i]
-                  ? JSON.stringify(getTimeList.attendanceTime[i].minute) &&
+                ? getTimeList.attendanceTime[count]
+                  ? JSON.stringify(getTimeList.attendanceTime[count].minute) &&
                     JSON.stringify(
-                      getTimeList.attendanceTime[i].minute
+                      getTimeList.attendanceTime[count].minute
                     ).replace(/\"/g, "")
                   : ""
                 : ""
@@ -513,9 +515,9 @@ export default {
           <span class="cell_leaveWorkTime">
           ${
             getTimeList.leaveWorkTime
-              ? getTimeList.leaveWorkTime[i]
-                ? JSON.stringify(getTimeList.leaveWorkTime[i].hour) &&
-                  JSON.stringify(getTimeList.leaveWorkTime[i].hour).replace(
+              ? getTimeList.leaveWorkTime[count]
+                ? JSON.stringify(getTimeList.leaveWorkTime[count].hour) &&
+                  JSON.stringify(getTimeList.leaveWorkTime[count].hour).replace(
                     /\"/g,
                     ""
                   )
@@ -523,21 +525,24 @@ export default {
               : ""
           }
           ${
-            getTimeList.leaveWorkTime && getTimeList.leaveWorkTime[i] ? ":" : ""
+            getTimeList.leaveWorkTime && getTimeList.leaveWorkTime[count]
+              ? ":"
+              : ""
           }
             ${
               getTimeList.leaveWorkTime
-                ? getTimeList.leaveWorkTime[i]
-                  ? JSON.stringify(getTimeList.leaveWorkTime[i].minute) &&
-                    JSON.stringify(getTimeList.leaveWorkTime[i].minute).replace(
-                      /\"/g,
-                      ""
-                    )
+                ? getTimeList.leaveWorkTime[count]
+                  ? JSON.stringify(getTimeList.leaveWorkTime[count].minute) &&
+                    JSON.stringify(
+                      getTimeList.leaveWorkTime[count].minute
+                    ).replace(/\"/g, "")
                   : ""
                 : ""
             }
           </span>
       `;
+
+        ++count;
       });
     },
     setToday() {
