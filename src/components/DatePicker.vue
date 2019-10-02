@@ -570,9 +570,9 @@ export default {
         LEAVE_WORK_MINUTE: "leaveWorkMinute"
       };
       const date = new Date();
-      this.getMonth = date.getUTCMonth() + 1;
-      this.getDate = date.getUTCDate();
-      this.getDay = date.getUTCDay();
+      this.getMonth = date.getMinutes() + 1;
+      this.getDate = date.getDate();
+      this.getDay = date.getDay();
       this.selectedIndex = this.getDate - 1;
 
       const getHours =
