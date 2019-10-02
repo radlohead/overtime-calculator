@@ -13,12 +13,12 @@
       <div class="btns-box">
         <b-button size="lg" @click="handleClickQuickBtn('ATTENDANCE_TIME')">출근</b-button>
         <b-button size="lg" @click="handleClickQuickBtn('LEAVE_WORK_TIME')">퇴근</b-button>
-      </div>
-      <div class="toast_box">
-        <b-toast id="example-toast" title="공지사항" static no-auto-hide>
-          매월 1일에 데이터가 초기화됩니다.
-          <br />말일에는 스크린샷을 찍어주세요.
-        </b-toast>
+        <div class="toast_box">
+          <b-toast id="example-toast" title="공지사항" static no-auto-hide>
+            매월 1일에 데이터가 초기화됩니다.
+            <br />말일에는 스크린샷을 찍어주세요.
+          </b-toast>
+        </div>
       </div>
     </template>
     <div v-show="gnb.isDatePicker">
@@ -918,16 +918,20 @@ select {
   background-color: #fff;
 }
 .toast_box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 300px;
+  width: 300px;
+  margin: 50px auto 0;
 }
 .toast_box > div {
   margin: 0 auto;
 }
 .btns-box {
-  margin-top: 30px;
+  position: relative;
+  margin-top: 50px;
+}
+.btns-box .btn {
+  padding: 10px 40px;
+}
+.btns-box .btn:first-child {
+  margin-right: 10px;
 }
 </style>
