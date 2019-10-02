@@ -10,9 +10,31 @@
     </nav>
 
     <template v-if="gnb.isCommute">
+      <b-popover
+        target="isAttendanceTimePopup"
+        :show.sync="isAttendanceTimePopup"
+        ,
+        placement="top"
+        triggers="click"
+      >출근 완료!</b-popover>
+      <b-popover
+        target="isLeaveWorkTimePopup"
+        :show.sync="isLeaveWorkTimePopup"
+        ,
+        placement="top"
+        triggers="click"
+      >퇴근 완료!</b-popover>
       <div class="btns-box">
-        <b-button size="lg" @click="handleClickQuickBtn('ATTENDANCE_TIME')">출근</b-button>
-        <b-button size="lg" @click="handleClickQuickBtn('LEAVE_WORK_TIME')">퇴근</b-button>
+        <b-button
+          id="isAttendanceTimePopup"
+          size="lg"
+          @click="handleClickQuickBtn('ATTENDANCE_TIME')"
+        >출근</b-button>
+        <b-button
+          id="isLeaveWorkTimePopup"
+          size="lg"
+          @click="handleClickQuickBtn('LEAVE_WORK_TIME')"
+        >퇴근</b-button>
         <div class="toast_box">
           <b-toast id="example-toast" title="공지사항" static no-auto-hide>
             매월 1일에 데이터가 초기화됩니다.
@@ -155,6 +177,9 @@ export default {
     return {
       ko,
       isPopup: false,
+      isAttendanceTimePopup: false,
+      isLeaveWorkTimePopup: false,
+
       date: {
         getMonth: null,
         getDate: null,
@@ -593,6 +618,24 @@ export default {
         this.handleChangeTime(CONSTANTS.LEAVE_WORK_MINUTE, getMinite);
       }
       this.handleClickClosePopup();
+
+      if (CONSTANTS.ATTENDANCE === e) {
+        this.isAttendanceTimePopup = !this.isAttendanceTimePopup;
+
+        if (this.isAttendanceTimePopup) {
+          setTimeout(() => {
+            this.isAttendanceTimePopup = false;
+          }, 1500);
+        }
+      } else if (CONSTANTS.LEAVE_WORK === e) {
+        this.isLeaveWorkTimePopup = !this.isLeaveWorkTimePopup;
+
+        if (this.isLeaveWorkTimePopup) {
+          setTimeout(() => {
+            this.isLeaveWorkTimePopup = false;
+          }, 1500);
+        }
+      }
     },
     handleChangeTime(e, time) {
       const CONSTANTS = {
