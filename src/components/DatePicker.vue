@@ -584,6 +584,34 @@ export default {
     openPopup() {
       this.isPopup = true;
     },
+    toastPopupTaskAll(e) {
+      const CONSTANTS = {
+        ATTENDANCE: "ATTENDANCE_TIME",
+        LEAVE_WORK: "LEAVE_WORK_TIME",
+
+        IS_ATTENDANCE_TIME_POPUP: "isAttendanceTimePopup",
+        IS_LEAVE_WORK_TIME_POPUP: "isLeaveWorkTimePopup",
+        DELAY: 1500
+      };
+      const targetPopupTask = {
+        [CONSTANTS.ATTENDANCE]: () => {
+          this.isAttendanceTimePopup = !this.isAttendanceTimePopup;
+
+          setTimeout(() => {
+            this.isAttendanceTimePopup = false;
+          }, CONSTANTS.DELAY);
+        },
+        [CONSTANTS.LEAVE_WORK]: () => {
+          this.isLeaveWorkTimePopup = !this.isLeaveWorkTimePopup;
+
+          setTimeout(() => {
+            this.isLeaveWorkTimePopup = false;
+          }, CONSTANTS.DELAY);
+        }
+      };
+
+      targetPopupTask[e]();
+    },
     handleClickQuickBtn(e) {
       const CONSTANTS = {
         ATTENDANCE: "ATTENDANCE_TIME",
@@ -617,25 +645,9 @@ export default {
         this.handleChangeTime(CONSTANTS.LEAVE_WORK_HOUR, getHours);
         this.handleChangeTime(CONSTANTS.LEAVE_WORK_MINUTE, getMinite);
       }
+
       this.handleClickClosePopup();
-
-      if (CONSTANTS.ATTENDANCE === e) {
-        this.isAttendanceTimePopup = !this.isAttendanceTimePopup;
-
-        if (this.isAttendanceTimePopup) {
-          setTimeout(() => {
-            this.isAttendanceTimePopup = false;
-          }, 1500);
-        }
-      } else if (CONSTANTS.LEAVE_WORK === e) {
-        this.isLeaveWorkTimePopup = !this.isLeaveWorkTimePopup;
-
-        if (this.isLeaveWorkTimePopup) {
-          setTimeout(() => {
-            this.isLeaveWorkTimePopup = false;
-          }, 1500);
-        }
-      }
+      this.toastPopupTaskAll(e);
     },
     handleChangeTime(e, time) {
       const CONSTANTS = {
