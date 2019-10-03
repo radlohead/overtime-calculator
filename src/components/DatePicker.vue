@@ -16,14 +16,14 @@
         ,
         placement="top"
         triggers="click"
-      >출근 완료!</b-popover>
+      >{{ currentTime }} 출근 완료!</b-popover>
       <b-popover
         target="isLeaveWorkTimePopup"
         :show.sync="isLeaveWorkTimePopup"
         ,
         placement="top"
         triggers="click"
-      >퇴근 완료!</b-popover>
+      >{{ currentTime }} 퇴근 완료!</b-popover>
       <div class="btns-box">
         <b-button
           id="isAttendanceTimePopup"
@@ -200,6 +200,7 @@ export default {
       currentMonth:
         localStorage.getItem("currentMonth") ||
         localStorage.setItem("currentMonth", new Date().getMonth() + 1),
+      currentTime: null,
       gnb: {
         isCommute: true,
         isDatePicker: false,
@@ -593,6 +594,7 @@ export default {
         IS_LEAVE_WORK_TIME_POPUP: "isLeaveWorkTimePopup",
         DELAY: 1500
       };
+      const date = new Date();
       const targetPopupTask = {
         [CONSTANTS.ATTENDANCE]: () => {
           this.isAttendanceTimePopup = !this.isAttendanceTimePopup;
@@ -611,6 +613,8 @@ export default {
       };
 
       targetPopupTask[e]();
+
+      this.currentTime = `${date.getHours()}시 ${date.getMinutes()}분`;
     },
     handleClickQuickBtn(e) {
       const CONSTANTS = {
