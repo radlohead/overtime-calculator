@@ -483,22 +483,33 @@ export default {
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
+      const BLANK = "blank";
       const attendanceTimeIndexList =
         JSON.parse(this.getTimeList).attendanceTime &&
         JSON.parse(this.getTimeList)
           .attendanceTime.map((v, i) => v && i)
-          .filter(v => v);
+          .filter(v => String(v));
       const leaveWorkTimeIndexList =
         JSON.parse(this.getTimeList).leaveWorkTime &&
         JSON.parse(this.getTimeList)
           .leaveWorkTime.map((v, i) => v && i)
-          .filter(v => v);
+          .filter(v => String(v));
+      let blankCount = 0;
 
-      Array.from(cellDayList).forEach((v, index) => {
-        if (attendanceTimeIndexList && attendanceTimeIndexList.includes(index))
-          v.classList.add("active");
-        if (attendanceTimeIndexList && leaveWorkTimeIndexList.includes(index))
-          v.classList.add("active");
+      Array.from(cellDayList).forEach((v, index, arr) => {
+        if (v.classList.contains(BLANK)) {
+          ++blankCount;
+        }
+      });
+      Array.from(cellDayList).forEach((v, index, arr) => {
+        if (
+          attendanceTimeIndexList &&
+          leaveWorkTimeIndexList &&
+          attendanceTimeIndexList.includes(index) &&
+          leaveWorkTimeIndexList.includes(index)
+        ) {
+          arr[index + blankCount].classList.add("active");
+        }
       });
     },
     renderToAddCellEle() {
@@ -854,8 +865,9 @@ export default {
 .cell.day {
   line-height: inherit;
 }
-.cell.day.active {
-  background: #ddd;
+.cell.day.active,
+.cell.day.highlighted.active {
+  background: #ddd !important;
 }
 .cell.day.highlighted {
   background: transparent !important;
