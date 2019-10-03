@@ -643,14 +643,11 @@ export default {
       this.getDay = date.getDay();
       this.selectedIndex = this.getDate - 1;
 
-      const getHours =
-        String(date.getHours()).length === 1
-          ? `0${String(date.getHours())}`
-          : String(date.getHours());
-      const getMinite =
-        String(date.getMinutes()).length === 1
-          ? `0${String(date.getMinutes())}`
-          : String(date.getMinutes());
+      const getTime = time => {
+        return String(time).length === 1 ? `0${String(time)}` : String(time);
+      };
+      const getHours = getTime(date.getHours());
+      const getMinite = getTime(date.getMinutes());
 
       if (CONSTANTS.ATTENDANCE === e) {
         this.handleChangeTime(CONSTANTS.ATTENDANCE_HOUR, getHours);
