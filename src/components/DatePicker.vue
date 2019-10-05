@@ -895,8 +895,9 @@ export default {
 .popup {
   position: fixed;
   top: 0;
+  left: -20px;
   z-index: 10;
-  width: 100%;
+  width: calc(100% + 40px);
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
 }
