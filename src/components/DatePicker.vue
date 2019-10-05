@@ -59,7 +59,7 @@
                 <h3 class="popup_inner_title">출근 시간:</h3>
                 <div class="selectBox">
                   <select name="attendanceHour" @change="handleChangeTime">
-                    <option disabled value selected>출근 시간(Hour)을 선택해 주세요.</option>
+                    <option disabled value selected>출근 (Hour)을 선택</option>
                     <option value="09">9시</option>
                     <option value="10">10시</option>
                     <option value="11">11시</option>
@@ -69,7 +69,7 @@
                     <option value="15">15시</option>
                   </select>
                   <select name="attendanceMinute" @change="handleChangeTime">
-                    <option disabled value selected>출근 분(Minute)을 선택해 주세요.</option>
+                    <option disabled value selected>출근 (Minute)을 선택</option>
                     <option value="00">0분</option>
                     <option value="05">5분</option>
                     <option value="10">10분</option>
@@ -85,11 +85,11 @@
                   </select>
                 </div>
               </section>
-              <section>
+              <section class="mt15">
                 <h3 class="popup_inner_title">퇴근 시간:</h3>
                 <div class="selectBox">
                   <select name="leaveWorkHour" @change="handleChangeTime">
-                    <option disabled value selected>퇴근 시간(Hour)을 선택해 주세요.</option>
+                    <option disabled value selected>퇴근 (Hour)을 선택</option>
                     <option value="14">14시</option>
                     <option value="15">15시</option>
                     <option value="16">16시</option>
@@ -107,7 +107,7 @@
                     <option value="04">4시</option>
                   </select>
                   <select name="leaveWorkMinute" @change="handleChangeTime">
-                    <option disabled value selected>퇴근 분(Minute)을 선택해 주세요.</option>
+                    <option disabled value selected>퇴근 (Minute)을 선택</option>
                     <option value="00">0분</option>
                     <option value="05">5분</option>
                     <option value="10">10분</option>
@@ -1001,5 +1001,25 @@ select {
 }
 .btns-box .btn:first-child {
   margin-right: 10px;
+}
+select {
+  background-color: #fff;
+  padding: 10px;
+  padding-right: 30px;
+  border: 1px solid #999;
+  border-radius: 0px;
+  background-image: url(../assets/select-icon.jpg);
+  background-repeat: no-repeat;
+  background-size: 10% 50%;
+  background-position: center right;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.mt15 {
+  margin-top: 15px;
+}
+.selectBox select:not(:first-child) {
+  margin-left: 5px;
 }
 </style>
