@@ -35,6 +35,19 @@
           size="lg"
           @click="handleClickQuickBtn('LEAVE_WORK_TIME')"
         >퇴근</b-button>
+        <div class="guide-box">
+          <b-button-group size="sm">
+            <b-button variant="outline-dark" size="sm" @click="$bvToast.show('guide-toast')">사용방법</b-button>
+          </b-button-group>
+          <b-toast id="guide-toast" class="guide-toast" title="사용 전 필독" static no-auto-hide>
+            <ul>
+              <li>· 야근수당 계산기는 캐시기반으로 동작하기 때문에 모바일에서 각각의 브라우저에 데이터가 따로 저장됩니다.</li>
+              <li>· 하나의 브라우저를 정해두고 캐시를 지우지 마시고 사용하시기 바랍니다.</li>
+              <li>· 월요일 아침에는 새로고침을 한번씩만 해주세요. (업데이트 한 작업사항이 반영됩니다.)</li>
+              <li>· 매달 1일에 데이터가 초기화 되므로 말일에는 총 금액을 캡쳐해두시기 바랍니다.</li>
+            </ul>
+          </b-toast>
+        </div>
         <div class="toast_box">
           <b-toast id="example-toast" title="공지사항" static no-auto-hide>
             매월 1일에 데이터가 초기화됩니다.
@@ -997,10 +1010,10 @@ select {
   position: relative;
   margin-top: 50px;
 }
-.btns-box .btn {
+.btns-box > .btn {
   padding: 10px 40px;
 }
-.btns-box .btn:first-child {
+.btns-box > .btn:first-child {
   margin-right: 10px;
 }
 select {
@@ -1022,5 +1035,28 @@ select {
 }
 .selectBox select:not(:first-child) {
   margin-left: 5px;
+}
+.guide-box {
+  padding: 25px 0 15px;
+}
+.guide-box > button {
+  margin: 0;
+}
+.guide-toast {
+  margin-top: 15px;
+}
+.guide-toast ul {
+  list-style: none;
+  text-align: left;
+  padding: 0 5px 0 10px;
+  margin: 0;
+}
+.guide-toast ul li {
+  margin-top: 5px;
+  text-indent: -6px;
+  font-size: 12px;
+}
+.guide-toast ul li:first-child {
+  margin-top: 0;
 }
 </style>
