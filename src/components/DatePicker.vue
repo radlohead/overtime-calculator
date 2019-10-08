@@ -9,6 +9,11 @@
       </ul>
     </nav>
 
+    <div class="overtime_totalPay">
+      누적금액:
+      <strong>{{ totalOvertimePay }}</strong> 원
+    </div>
+
     <template v-if="gnb.isCommute">
       <b-popover
         target="isAttendanceTimePopup"
@@ -967,6 +972,9 @@ select {
 .overtime_totalPay {
   color: red;
 }
+.overtime_totalPay strong {
+  font-size: 1.15rem;
+}
 .gnb ul {
   display: flex;
   flex-direction: row;
@@ -1008,7 +1016,7 @@ select {
 }
 .btns-box {
   position: relative;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .btns-box > .btn {
   padding: 10px 40px;
