@@ -9,12 +9,11 @@
       </ul>
     </nav>
 
-    <div class="overtime_totalPay">
-      누적금액:
-      <strong>{{ totalOvertimePay }}</strong> 원
-    </div>
-
     <template v-if="gnb.isCommute">
+      <div class="overtime_totalPay">
+        누적금액:
+        <strong>{{ totalOvertimePay }}</strong> 원
+      </div>
       <b-popover
         target="isAttendanceTimePopup"
         :show.sync="isAttendanceTimePopup"
