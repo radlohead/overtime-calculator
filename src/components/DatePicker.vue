@@ -12,7 +12,7 @@
     <template v-if="gnb.isCommute">
       <div class="overtime_totalPay">
         누적금액:
-        <strong>{{ totalOvertimePay }}</strong> 원
+        <strong id="totalOvertimePay"></strong> 원
       </div>
       <b-popover
         target="isAttendanceTimePopup"
@@ -188,6 +188,7 @@
 <script>
 import { ko } from "vuejs-datepicker/dist/locale";
 import Datepicker from "vuejs-datepicker";
+import { CountUp } from "countup.js";
 
 export default {
   data() {
@@ -496,6 +497,12 @@ export default {
       };
 
       this.totalOvertimePay = this.numberWithCommas(totalPay());
+      const totalOvertimePayCountUp = new CountUp(
+        "totalOvertimePay",
+        totalPay()
+      );
+      totalOvertimePayCountUp.start();
+
       this.totalOvertime = totalOverMiniteSum;
     },
     renderToAddClass() {
