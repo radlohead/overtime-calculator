@@ -9,7 +9,7 @@
       </ul>
     </nav>
 
-    <template v-if="gnb.isCommute">
+    <div v-show="gnb.isCommute">
       <div class="overtime_totalPay">
         누적금액:
         <strong id="totalOvertimePay"></strong> 원
@@ -59,7 +59,7 @@
           </b-toast>
         </div>
       </div>
-    </template>
+    </div>
     <div v-show="gnb.isDatePicker">
       <div class="datepicker_wrapper">
         <datepicker
@@ -147,7 +147,6 @@
         </template>
       </div>
     </div>
-
     <div v-show="gnb.isTotalPay">
       <header class="header">
         <table class="header_table">
@@ -214,6 +213,7 @@ export default {
       selectedTimeList: [],
       totalOvertimePay: 0,
       totalOvertime: 0,
+      totalPay: 0,
       holidayList: [],
       currentMonth:
         localStorage.getItem("currentMonth") ||
@@ -295,6 +295,10 @@ export default {
       const gnbKeys = Object.keys(this.gnb);
       const listEle = window.document.querySelectorAll(".gnb ul li");
       const targetEle = window.document.querySelector(`.${name.toLowerCase()}`);
+
+      if (CONSTANTS[name] === CONSTANTS.COMMUTE) {
+        this.numberCountUp("totalOvertimePay", this.totalPay);
+      }
 
       gnbKeys.forEach(key => {
         this.gnb[key] = false;
@@ -495,15 +499,20 @@ export default {
 
         return result > 0 ? result : 0;
       };
+      this.totalPay = totalPay();
 
-      this.totalOvertimePay = this.numberWithCommas(totalPay());
-      const totalOvertimePayCountUp = new CountUp(
-        "totalOvertimePay",
-        totalPay()
-      );
-      totalOvertimePayCountUp.start();
-
+      this.totalOvertimePay = this.numberWithCommas(this.totalPay);
       this.totalOvertime = totalOverMiniteSum;
+
+      this.numberCountUp("totalOvertimePay", this.totalPay);
+    },
+    numberCountUp(target, number) {
+      const countUp = new CountUp(target, number);
+      if (!countUp.error) {
+        countUp.start();
+      } else {
+        console.error(countUp.error);
+      }
     },
     renderToAddClass() {
       const cellDayList = document.querySelectorAll(".cell.day");
