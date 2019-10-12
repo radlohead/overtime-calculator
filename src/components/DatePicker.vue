@@ -871,7 +871,7 @@ export default {
 }
 .datepicker_wrapper .vdp-datepicker__calendar .cell {
   padding: 0;
-  height: 75px;
+  height: 78px;
   border: none;
   margin-left: -1px;
   line-height: inherit;
