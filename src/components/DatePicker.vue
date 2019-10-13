@@ -1062,6 +1062,10 @@ select {
 .guide-box {
   padding: 25px 0 15px;
 }
+.guide-box #guide-toast__toast_outer {
+  margin-left: auto;
+  margin-right: auto;
+}
 .guide-box > button {
   margin: 0;
 }
