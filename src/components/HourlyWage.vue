@@ -4,6 +4,9 @@
     <input type="number" v-model="tempTimePay" />
     <span>원</span>
     <button type="button" @click="handleClickNextBtn">다음</button>
+    <div class="btn-box">
+      <button type="button" @click="handleClickTimePayOperator">시급 계산하기</button>
+    </div>
   </section>
 </template>
 <script>
@@ -27,9 +30,15 @@ export default {
       }
       localStorage.setItem("timePay", this.tempTimePay);
       this.$router.replace("datePicker");
+    },
+    handleClickTimePayOperator() {
+      this.$router.replace("timePay-operator");
     }
   }
 };
 </script>
 <style scoped>
+.btn-box {
+  margin-top: 15px;
+}
 </style>

@@ -33,6 +33,7 @@ export default {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     handleClickTimePayOperator() {
+      if (!this.yearlyWagePay) return;
       const timePay = Number(this.yearlyWagePay.replace(/,/g, "")) / 12 / 239;
 
       localStorage.setItem("timePay", Math.ceil(timePay / 100) * 100);
