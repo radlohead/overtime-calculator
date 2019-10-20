@@ -180,6 +180,7 @@
         </table>
       </header>
       <button class="timePay_init" @click="handleClickTimePayInit">시급 초기화</button>
+      <button class="timePay_operator" @click="handleClickTimePayOperator">시급 계산하기</button>
     </div>
   </div>
 </template>
@@ -278,6 +279,9 @@ export default {
     handleClickTimePayInit() {
       localStorage.removeItem("timePay");
       this.$router.replace("/");
+    },
+    handleClickTimePayOperator(){
+      this.$router.replace("/timePay-operator");
     },
     handleClickPopup(e) {
       const targetPopup = e.target.getAttribute("class") === "popup";
@@ -1016,7 +1020,8 @@ select {
   padding-right: 5px;
   border-left: 1px solid #ddd;
 }
-.timePay_init {
+.timePay_init,
+.timePay_operator {
   padding: 10px;
   margin-top: 20px;
   border: 1px solid #ddd;
