@@ -179,8 +179,10 @@
           </tbody>
         </table>
       </header>
-      <button class="timePay_init" @click="handleClickTimePayInit">시급 초기화</button>
-      <button class="timePay_operator" @click="handleClickTimePayOperator">시급 계산하기</button>
+      <b-button-group size="sm" class="timePayBtn-box">
+        <b-button variant="outline-dark" size="sm" @click="handleClickTimePayInit">시급 초기화</b-button>
+        <b-button variant="outline-dark" size="sm" @click="handleClickTimePayOperator">시급 계산하기</b-button>
+      </b-button-group>
     </div>
   </div>
 </template>
@@ -280,7 +282,7 @@ export default {
       localStorage.removeItem("timePay");
       this.$router.replace("/");
     },
-    handleClickTimePayOperator(){
+    handleClickTimePayOperator() {
       this.$router.replace("/timePay-operator");
     },
     handleClickPopup(e) {
@@ -1090,5 +1092,8 @@ select {
 }
 .guide-toast ul li:first-child {
   margin-top: 0;
+}
+.timePayBtn-box {
+  margin-top: 20px;
 }
 </style>
