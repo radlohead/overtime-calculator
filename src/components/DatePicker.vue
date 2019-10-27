@@ -856,7 +856,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
 .root {
   padding: 20px;
 }
