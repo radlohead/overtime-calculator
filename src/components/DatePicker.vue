@@ -856,10 +856,12 @@ export default {
   }
 };
 </script>
-
-<style>
+<style scoped>
 .root {
   padding: 20px;
+}
+.title {
+  font-size: 18px;
 }
 .vdp-datepicker__calendar {
   width: auto !important;
@@ -986,9 +988,6 @@ select {
 .header_table td {
   padding: 7px 15px;
   border: 1px solid #ddd;
-}
-.title {
-  font-size: 18px;
 }
 .overtime_totalPay {
   color: red;
