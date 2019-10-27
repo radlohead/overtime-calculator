@@ -1,14 +1,17 @@
 <template>
   <section class="root">
-    <h2>연봉을 입력하세요.</h2>
-    <input type="text" v-model="yearlyWagePay" />
-    <span>원</span>
-    <button type="button" @click="handleClickTimePayOperator">시급계산</button>
-    <div class="timePay-box">
-      <span>시급</span>
-      <span>{{ numberWithCommas(timePay) }}</span>원
+    <h1 class="title">연봉을 입력하세요.</h1>
+    <b-form-input class="timePayInput" v-model="yearlyWagePay" placeholder="연봉을 입력하세요."></b-form-input>
+    <div class="btn-box">
+      <b-button variant="success" @click="handleClickTimePayOperator">확인</b-button>
     </div>
-    <button type="button" @click="handleClickNextBtn">홈으로 이동</button>
+    <div class="timePay-box">
+      <span>현재 시급:</span>
+      <strong>{{ numberWithCommas(timePay) }}</strong> 원
+    </div>
+    <div class="btn-box">
+      <b-button @click="handleClickNextBtn">메인으로</b-button>
+    </div>
   </section>
 </template>
 <script>
@@ -46,7 +49,21 @@ export default {
 };
 </script>
 <style scoped>
+.root {
+  padding: 20px;
+}
+.title {
+  font-size: 18px;
+}
 .timePay-box {
   margin-top: 15px;
+  color: red;
+}
+.btn-box {
+  margin-top: 15px;
+}
+.timePayInput {
+  width: 50%;
+  margin: 0 auto;
 }
 </style>
