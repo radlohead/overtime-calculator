@@ -895,7 +895,7 @@ export default {
 }
 .datepicker_wrapper .vdp-datepicker__calendar .cell {
   padding: 0;
-  height: 78px;
+  height: 69px;
   border: none;
   margin-left: -1px;
   line-height: inherit;
@@ -913,7 +913,7 @@ export default {
 }
 .cell_day {
   display: block;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 .cell_attendanceTime,
 .cell_leaveWorkTime {
