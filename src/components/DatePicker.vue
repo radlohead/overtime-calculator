@@ -178,6 +178,16 @@
             </tr>
           </tbody>
         </table>
+        <table class="header_table mt15">
+          <tbody>
+            <tr>
+              <th>저번달 야근 수당:</th>
+              <td>
+                <span class="overtime_totalPay">{{ beforeTotalOvertimePay }} 원</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </header>
       <b-button-group size="sm" class="timePayBtn-box">
         <b-button variant="outline-dark" size="sm" @click="handleClickTimePayInit">시급 초기화</b-button>
@@ -243,7 +253,9 @@ export default {
         type: "",
         hour: "",
         minute: ""
-      }
+      },
+      beforeTotalOvertimePay:
+        localStorage.getItem("beforeMonthTotalTimePay") || 0
     };
   },
   watch: {
@@ -341,6 +353,8 @@ export default {
 
       if (Number(currentMonth) === getMonth) return;
 
+      this.renderTotalOverTime();
+      localStorage.setItem("beforeMonthTotalTimePay", this.totalOvertimePay);
       localStorage.setItem("currentMonth", getMonth);
       localStorage.setItem("getTimeList", "{}");
     },
