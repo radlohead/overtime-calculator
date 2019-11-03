@@ -155,13 +155,13 @@
             <tr>
               <th>현재 시급:</th>
               <td>
-                <span class="current_timePay">{{ numberWithCommas(timePay) }} 원</span>
+                <span class="current_timePay">{{ timePay | numberWithCommas }} 원</span>
               </td>
             </tr>
             <tr>
               <th>야근 시급:</th>
               <td>
-                <span class="overtime_pay">{{ numberWithCommas(timePay * 1.5) }} 원</span>
+                <span class="overtime_pay">{{ (timePay * 1.5) | numberWithCommas }} 원</span>
               </td>
             </tr>
             <tr>
