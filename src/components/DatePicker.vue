@@ -375,9 +375,6 @@ export default {
 
       return dateDayAgreeList();
     },
-    numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
     fixedTimeList() {
       const timeList = JSON.parse(this.getTimeList);
       const attendanceTime = timeList.attendanceTime;
@@ -521,7 +518,7 @@ export default {
       };
       this.totalPay = totalPay();
 
-      this.totalOvertimePay = this.numberWithCommas(this.totalPay);
+      this.totalOvertimePay = this.NumberWithCommas(this.totalPay);
       this.totalOvertime = totalOverMiniteSum;
 
       this.numberCountUp("totalOvertimePay", this.totalPay);
