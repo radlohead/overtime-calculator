@@ -14,10 +14,6 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-Vue.filter('numberWithCommas', value =>
-  value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-)
-
 new Vue({
   el: '#app',
   router,
