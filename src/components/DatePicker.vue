@@ -277,6 +277,7 @@ export default {
     this.setToday();
   },
   mounted() {
+    this.handleEventClear();
     this.mountedTaskAll();
     this.renderTaskAll();
     this.$bvToast.show("example-toast");
@@ -284,7 +285,6 @@ export default {
   methods: {
     mountedTaskAll() {
       this.initCalendarEle();
-      this.handleEventClear();
       this.handleClickGnb();
       this.monthStartCheck();
       this.totalOverTime();
