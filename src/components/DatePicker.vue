@@ -262,7 +262,7 @@ export default {
     gnb: {
       handler: function() {
         this.getTimeList = localStorage.getItem("getTimeList") || "{}";
-        this.mountedTaskAll();
+        this.watchedTaskAll();
         this.renderTaskAll();
       },
       deep: true
@@ -277,14 +277,17 @@ export default {
     this.setToday();
   },
   mounted() {
-    this.handleEventClear();
     this.mountedTaskAll();
+    this.watchedTaskAll();
     this.renderTaskAll();
     this.$bvToast.show("example-toast");
   },
   methods: {
     mountedTaskAll() {
+      this.handleEventClear();
       this.initCalendarEle();
+    },
+    watchedTaskAll() {
       this.handleClickGnb();
       this.monthStartCheck();
       this.totalOverTime();
