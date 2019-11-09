@@ -1,7 +1,7 @@
 <template>
   <section class="root">
     <h1 class="title">시급 설정</h1>
-    <b-form-input class="timePayInput" v-model="tempTimePay" placeholder="시급을 입력하세요."></b-form-input>
+    <b-form-input class="timePayInput" v-focus v-model="tempTimePay" placeholder="시급을 입력하세요."></b-form-input>
     <div class="btn-box">
       <b-button variant="success" @click="handleClickNextBtn">확인</b-button>
     </div>

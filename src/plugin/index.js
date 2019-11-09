@@ -6,7 +6,10 @@ plugin.install = function(Vue, options) {
   }),
     Vue.filter('numberWithCommas', value =>
       value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    )
+    ),
+    Vue.directive('focus', {
+      inserted: el => el.focus()
+    })
 }
 
 export default plugin
