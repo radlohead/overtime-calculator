@@ -1,3 +1,11 @@
 # 밀리의 서재 야근수당 계산기
 
-## url: http://overtime-pay.s3-website.ap-northeast-2.amazonaws.com
+url: http://overtime-pay.s3-website.ap-northeast-2.amazonaws.com
+
+사용방법
+
+- 야근수당 계산기는 캐시기반으로 동작하기 때문에 모바일에서 각각의 브라우저에 데이터가 따로 저장됩니다.
+- 하나의 브라우저를 정해두고 캐시를 지우지 마시고 사용하시기 바랍니다.
+- 월요일 아침에는 새로고침을 한번씩만 해주세요. (업데이트 한 작업사항이 반영됩니다.)
+- 매월 1일에 데이터가 초기화됩니다.
+  말일에는 스크린샷을 찍어주세요.
