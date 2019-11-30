@@ -356,10 +356,13 @@ export default {
 
       if (Number(currentMonth) === getMonth) return;
 
-      this.renderTotalOverTime();
-      localStorage.setItem("beforeMonthTotalTimePay", this.totalOvertimePay);
+      localStorage.setItem(
+        "beforeMonthTotalTimePay",
+        localStorage.getItem("totalOvertimePay")
+      );
       localStorage.setItem("currentMonth", getMonth);
       localStorage.setItem("getTimeList", "{}");
+      location.reload();
     },
     holidayListCheck() {
       const date = new Date();
@@ -525,6 +528,7 @@ export default {
       this.totalOvertime = totalOverMiniteSum;
 
       this.numberCountUp("totalOvertimePay", this.totalPay);
+      localStorage.setItem("totalOvertimePay", this.totalOvertimePay);
     },
     numberCountUp(target, number) {
       const countUp = new CountUp(target, number);
