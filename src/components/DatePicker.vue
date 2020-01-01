@@ -165,19 +165,22 @@
               </td>
             </tr>
             <tr>
-              <th>이번달 야근 식대</th>
+              <th>야근 식대</th>
               <td>
                 <span class="dinner_pay">{{ totalDinnerCount * 10000 | numberWithCommas}} 원</span>
               </td>
             </tr>
             <tr>
-              <th>이번달 야근 수당:</th>
+              <th>
+                야근 수당
+                <span class="overtime_totalPay_description">(야근 식대 포함)</span>
+              </th>
               <td>
                 <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
               </td>
             </tr>
             <tr>
-              <th>이번달 야근 시간:</th>
+              <th>야근 시간</th>
               <td>
                 <span class="overtime_total">{{ totalOvertime }} 시간</span>
               </td>
@@ -1043,6 +1046,12 @@ select {
 }
 .overtime_totalPay strong {
   font-size: 1.15rem;
+}
+.overtime_totalPay_description {
+  display: block;
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
 }
 .dinner_pay {
   color: red;
