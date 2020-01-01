@@ -241,11 +241,17 @@ export default {
       highlighted: {
         days: [0],
         dates: [
-          new Date(2019, 8, 12),
-          new Date(2019, 8, 13),
-          new Date(2019, 9, 3),
-          new Date(2019, 9, 9),
-          new Date(2019, 11, 25)
+          new Date(2020, 0, 1),
+          new Date(2020, 0, 24),
+          new Date(2020, 0, 27),
+          new Date(2020, 3, 15),
+          new Date(2020, 3, 30),
+          new Date(2020, 4, 5),
+          new Date(2020, 8, 30),
+          new Date(2020, 9, 1),
+          new Date(2020, 9, 2),
+          new Date(2020, 9, 9),
+          new Date(2020, 11, 25)
         ],
         includeDisabled: true
       },
