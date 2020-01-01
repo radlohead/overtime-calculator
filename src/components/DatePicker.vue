@@ -456,7 +456,7 @@ export default {
           return getHourToMinite() + getMinite;
         }
         if (v.isWednesday) {
-          return getHourToMinite() + getMinite - 360;
+          return getHourToMinite() + getMinite - 420;
         } else {
           return getHourToMinite() + getMinite - 540;
         }
@@ -475,13 +475,13 @@ export default {
       if (!this.totalOverTime() || !this.totalOverTime().length) return;
 
       const totalOverMiniteSum = (
-        (this.totalOverTime().reduce((p, c) => p + c) - 1200) /
+        (this.totalOverTime().reduce((p, c) => p + c) - 600) /
         60
       ).toFixed(1);
       const totalOverHour = totalOverMiniteSum / 60;
       const isWeekendList = this.fixedTimeList().map(v => v.isWeekend === true);
 
-      let baseMiniteCount = 1200;
+      let baseMiniteCount = 600;
       const minusBaseOverTime = this.totalOverTime().map(v => {
         if (v > 0 && baseMiniteCount > 0) {
           if (v <= baseMiniteCount) {
