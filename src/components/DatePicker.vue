@@ -165,6 +165,12 @@
               </td>
             </tr>
             <tr>
+              <th>이번달 야근 식대</th>
+              <td>
+                <span class="dinner_pay">{{ totalDinnerCount * 10000 | numberWithCommas}} 원</span>
+              </td>
+            </tr>
+            <tr>
               <th>이번달 야근 수당:</th>
               <td>
                 <span class="overtime_totalPay">{{ totalOvertimePay }} 원</span>
@@ -227,6 +233,7 @@ export default {
       totalOvertimePay: 0,
       totalOvertime: 0,
       totalPay: 0,
+      totalDinnerCount: 0,
       holidayList: [],
       currentMonth:
         localStorage.getItem("currentMonth") ||
@@ -420,8 +427,6 @@ export default {
       const leaveWorkTime = timeList.leaveWorkTime;
       const date = new Date();
 
-      let overTimeCount = 0;
-
       this.fixedTimeList();
 
       if (!this.fixedTimeList()) return;
@@ -449,6 +454,13 @@ export default {
               (1000 * 60);
             result +=
               (date.setHours(leaveWorkHour) - date.setHours(0)) / (1000 * 60);
+          }
+          if (leaveWorkHour >= 20) {
+            if (leaveWorkHour === 20 && leaveWorkMinute <= 30) {
+              result -= leaveWorkMinute;
+            } else {
+              result -= 30;
+            }
           }
 
           return result;
@@ -529,6 +541,19 @@ export default {
         return result > 0 ? result : 0;
       };
       this.totalPay = totalPay();
+
+      const dinnerCount = () => {
+        let count = 0;
+        this.fixedTimeList().forEach(obj => {
+          if (obj.leaveWorkTime) {
+            const currentHourNum = Number(obj.leaveWorkTime.hour);
+            if (currentHourNum >= 20 || currentHourNum <= 4) count += 1;
+          }
+        });
+        return count;
+      };
+      this.totalDinnerCount = dinnerCount();
+      this.totalPay = Number(totalPay()) + dinnerCount() * 10000;
 
       this.totalOvertimePay = this.NumberWithCommas(this.totalPay);
       this.totalOvertime = totalOverMiniteSum;
@@ -1018,6 +1043,9 @@ select {
 }
 .overtime_totalPay strong {
   font-size: 1.15rem;
+}
+.dinner_pay {
+  color: red;
 }
 .gnb ul {
   display: flex;
