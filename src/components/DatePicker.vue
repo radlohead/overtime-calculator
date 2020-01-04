@@ -55,7 +55,7 @@
         <div class="toast_box">
           <b-toast id="example-toast" title="공지사항" static no-auto-hide>
             매월 1일에 데이터가 초기화됩니다.
-            <br />말일에는 스크린샷을 찍어주세요.
+            <br />말일에는 스크린샷을 찍어주세요
           </b-toast>
         </div>
       </div>
