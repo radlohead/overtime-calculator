@@ -14,4 +14,4 @@ version: 0.2
           - npm run build # 빌드
       post_build:
         commands:
-          - aws s3 sync ./build s3://overtime-pay # 빌드 후 결과물을 버킷으로 업로드
+          - aws s3 sync ./dist s3://overtime-pay # 빌드 후 결과물을 버킷으로 업로드
